@@ -3,62 +3,70 @@ import random, os, re, shutil
 from PIL import Image, ImageTk
 import tkinter as tk
 from tkinter import ttk
+quit = False
+
+def menu():
+    slideshow_mode_selection()
 
 def clean_filename(filename):
     return re.sub(r"[\\/*?:<>|]", '', filename)
 
-mode_selection = input("Competition, Casual, Learn, Custom or Test mode?\n").lower()
-if mode_selection == "competition": slideshow_length = 30; slideshow_time = 10000; instant_reveal = False; intermission_time = 0; variance = 5; txt_file = "Competition.txt"; text_size = 20; extension = " aircraft"; timer = False
-elif mode_selection == "casual": slideshow_length = 20; slideshow_time = 10000; instant_reveal = True; intermission_time = 5; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
-elif mode_selection == "test": slideshow_length = 3; slideshow_time = 4000; instant_reveal = True; intermission_time = 0; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
-elif mode_selection == "learn": slideshow_length = 10; slideshow_time = 99999; instant_reveal = True; intermission_time = 0; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = False
-else:
-    slideshow_length = int(input("Amount of slides?\n"))
-    slideshow_time = int(input("Seconds per slide?\n")) * 1000
-    if input("Reveal answers immediately yes/no\n").lower() == "yes": instant_reveal = True
-    else: instant_reveal = False
-    intermission_time = int(input("Seconds of intermission?\n")) * 1000
-    variance = int(input("How many images per aircraft? (More images means more randomness but slower download speed)\n"))
-    text_size = int(input("Text size?\n"))
-    txt_file = input("Which list of aircraft do you want to draw from?\n") + ".txt"
-    extension = clean_filename(" " + input("Search modifier? e.g real aircraft or top view\n"))
-    if input("Timer yes/no\n").lower() == "yes": timer = True
-    else: timer = False
+def slideshow_mode_selection():
+    with open('paths.txt', 'w'): pass
+    print("Welcome to 12F's aircraft recognition program by CPL Reisons (Hoping no malicious actor has modified any code)")
+    mode_selection = input("Competition, Casual, Learn, Custom or Test mode?\n").lower()
+    if mode_selection == "competition": slideshow_length = 30; slideshow_time = 10000; instant_reveal = False; intermission_time = 0; variance = 5; txt_file = "Competition.txt"; text_size = 20; extension = " aircraft"; timer = False
+    elif mode_selection == "casual": slideshow_length = 20; slideshow_time = 10000; instant_reveal = True; intermission_time = 5000; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
+    elif mode_selection == "test": slideshow_length = 3; slideshow_time = 4000; instant_reveal = True; intermission_time = 2000; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
+    elif mode_selection == "learn": slideshow_length = 10; slideshow_time = 99999; instant_reveal = True; intermission_time = 0; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = False
+    else:
+        slideshow_length = int(input("Amount of slides?\n"))
+        slideshow_time = int(input("Seconds per slide?\n")) * 1000
+        if input("Reveal answers immediately yes/no\n").lower() == "yes": instant_reveal = True
+        else: instant_reveal = False
+        intermission_time = int(input("Seconds of intermission?\n")) * 1000
+        variance = int(input("How many images per aircraft? (More images means more randomness but slower download speed)\n"))
+        text_size = int(input("Text size?\n"))
+        txt_file = input("Which list of aircraft do you want to draw from?\n") + ".txt"
+        extension = clean_filename(" " + input("Search modifier? e.g real aircraft, top view\n")).rstrip()
+        if input("Timer yes/no\n").lower() == "yes": timer = True
+        else: timer = False
 
-# Step 1: Read the aircraft names from the text file
-with open(txt_file, 'r') as file:
-    aircraft_list = file.read().splitlines()
+    selected_aircraft = aircraft_selector(txt_file,slideshow_length)
+    image_downloader(selected_aircraft,extension,variance)
+    run_slideshow(slideshow_time,text_size,timer,instant_reveal,selected_aircraft,intermission_time,extension,variance)
+    show_list_of_aircraft(selected_aircraft,text_size)
 
-# Step 2: Select random aircraft names based on user input
-selected_aircraft = random.sample(aircraft_list, slideshow_length)
-random.shuffle(selected_aircraft)
+def aircraft_selector(txt_file,slideshow_length):
+    with open(txt_file, 'r') as file:
+        aircraft_list = file.read().splitlines()
 
-# Create a dictionary to map original names to cleaned names
-name_mapping = {name: clean_filename(name) for name in selected_aircraft}
+    selected_aircraft = random.sample(aircraft_list, slideshow_length)
+    random.shuffle(selected_aircraft)
+    return selected_aircraft
 
-# Step 3: Download images for the selected aircraft
-for aircraft in selected_aircraft:
-    query = aircraft + extension
-    downloaded_files = downloader.download(query, limit=variance, output_dir='C:/aircraft_recognition_program/images/', adult_filter_off=True, force_replace=True, timeout=60, filter="photo", verbose=True)
-    if downloaded_files:
-        downloaded_file_path = downloaded_files[0]
-        cleaned_filename = clean_filename(aircraft)
-        new_file_path = os.path.join('C:/aircraft_recognition_program/images/')
+def image_downloader(selected_aircraft,extension,variance):
+    for aircraft in selected_aircraft:
+        query = aircraft + extension
+        downloaded_files = downloader.download(query, limit=variance, output_dir='C:/aircraft_recognition_program/images/', adult_filter_off=False, force_replace=True, timeout=60, filter="photo", verbose=True)
+        if downloaded_files:
+            downloaded_file_path = downloaded_files[0]
+            new_file_path = os.path.join('C:/aircraft_recognition_program/images/')
         
-        image = Image.open(downloaded_file_path)
-        if image.format != 'JPEG':
-            image = image.convert('RGB')
-            image.save(new_file_path)
-            print("converted to jpeg and Saved to new path")
-            os.remove(downloaded_file_path)
-        else:
-            import shutil
-            shutil.move(downloaded_file_path, new_file_path)
-            print("Saved to new path")
+            image = Image.open(downloaded_file_path)
+            if image.format != 'JPEG':
+                image = image.convert('RGB')
+                image.save(new_file_path)
+                print("converted to jpeg and Saved to new path")
+                os.remove(downloaded_file_path)
+            else:
+                import shutil
+                shutil.move(downloaded_file_path, new_file_path)
+                print("Saved to new path")
 
-        print(f"Renamed {downloaded_file_path} to {new_file_path}")
+            print(f"Renamed {downloaded_file_path} to {new_file_path}")
         
-def show_image(image_path, remaining_time, intermission=False):
+def show_image(remaining_time,timer,instant_reveal,intermission_time,text_size,cleaned_filename,image_path,slideshow_time,intermission):
     root = tk.Tk()
     root.title("Aircraft Image")
     
@@ -96,12 +104,13 @@ def show_image(image_path, remaining_time, intermission=False):
     place_aircraft_name()
     
     def update_timer():
-        nonlocal remaining_time
+        nonlocal remaining_time  # Use nonlocal to modify the outer variable
         remaining_time -= 1
         timer_label.config(text=str(remaining_time))
         if remaining_time > 0:
             root.after(1000, update_timer)
-    
+
+    remaining_time = remaining_time  # Initialize remaining_time here
     update_timer()
     
     def on_image_resize(event):
@@ -117,49 +126,59 @@ def show_image(image_path, remaining_time, intermission=False):
         root.after(intermission_time, close_window)
     else:
         root.after(slideshow_time, close_window)
+
     
     root.mainloop()
+              
+def run_slideshow(slideshow_time, text_size, timer, instant_reveal, selected_aircraft, intermission_time, extension, variance):
+    for aircraft in selected_aircraft:
+        remaining_time = slideshow_time // 1000
+        cleaned_filename = clean_filename(aircraft)
+        image_path = os.path.join('C:/aircraft_recognition_program/images/' + aircraft + extension + '/Image_' + str(random.randint(1, variance)) + '.jpg')
+        with open("paths.txt", "a") as f:
+            f.write(image_path + "\n")
+        
+        if os.path.exists(image_path):
+            show_image(remaining_time, timer, instant_reveal, intermission_time // 1000, text_size, cleaned_filename, image_path, slideshow_time, False)
+            
+            if intermission_time > 0:
+                show_image(remaining_time / 2, timer, instant_reveal, intermission_time, text_size, cleaned_filename, image_path, slideshow_time, True)
+        else:
+            print(f"Image not found: {cleaned_filename}")
 
-# Display the images
-for aircraft in selected_aircraft:
-    cleaned_filename = clean_filename(aircraft)
-    image_path = os.path.join('C:/aircraft_recognition_program/images/' + aircraft + extension + '/Image_' + str(random.randint(1,variance)) + '.jpg')
-    if os.path.exists(image_path):
-        show_image(image_path, slideshow_time//1000)
-        if intermission_time > 0:
-            show_image(None, intermission_time//1000, intermission=True)
-    else:
-        print(f"Image not found: {cleaned_filename}")
+def open_image(photo_references, image_path, aircraft_name):
+    root = tk.Toplevel()  # Use Toplevel instead of Tk
+    root.title(f"{aircraft_name} - Image Viewer")
 
-# Display the list of selected aircraft
-def show_aircraft_image(name):
-    root = tk.Tk()
-    root.title("Aircraft Image")
-
-    image_path = aircraft_image_paths.get(name)
-    if image_path:
-        img = Image.open(image_path)
-        photo = ImageTk.PhotoImage(img)
-        label = ttk.Label(root, image=photo)
+    try:
+        image = Image.open(image_path)
+        photo = ImageTk.PhotoImage(image)
+        label = tk.Label(root, image=photo)
+        label.image = photo  # Keep a reference to the image to prevent garbage collection
         label.pack()
-        root.mainloop()
-    else:
-        print(f"Image not found for aircraft: {name}")
 
-# Create a dictionary to map aircraft names to their corresponding image paths
-aircraft_image_paths = {}
+        # Store photo reference globally
+        photo_references.append(photo)
 
-for aircraft in selected_aircraft:
-    cleaned_filename = clean_filename(aircraft)
-    image_path = os.path.join('C:/aircraft_recognition_program/images/' + aircraft + extension + '/Image_' + str(random.randint(1,variance)) + '.jpg')
-    if os.path.exists(image_path):
-        aircraft_image_paths[cleaned_filename] = image_path
+        # Display the aircraft name
+        aircraft_label = tk.Label(root, text=aircraft_name, font=('Arial', 14))
+        aircraft_label.pack()
+
+    except Exception as e: print(f"Error: {e}")
+
+    root.mainloop()
 
 # Modify the show_list_of_aircraft function to add a callback function
-def show_list_of_aircraft():
+def show_list_of_aircraft(selected_aircraft,text_size):
     def on_aircraft_click(event):
-        selected_item = listbox.get(tk.ACTIVE)
-        show_aircraft_image(selected_item)
+        photo_references = []
+        index = listbox.nearest(event.y)
+        with open("paths.txt") as file:
+            paths = file.readlines()
+            if 0 <= index < len(paths):
+                pather = paths[index].strip()  # Get the path at the clicked index
+                selected_aircraft_name = selected_aircraft[index]  # Get the aircraft name
+                open_image(photo_references, pather, selected_aircraft_name)
 
     root = tk.Tk()
     root.title("List of Selected Aircraft")
@@ -168,10 +187,9 @@ def show_list_of_aircraft():
     listbox.pack(fill=tk.BOTH, expand=tk.YES)
     
     for i, aircraft in enumerate(selected_aircraft, start=1):
-        listbox.insert(tk.END, f"{i}. {aircraft}")
+        listbox.insert(tk.END, f"{i}. {aircraft}")  # Include the index and full aircraft name
     
-    listbox.bind('<Double-Button-1>', on_aircraft_click)  # Bind double click event to callback
-    
+    listbox.bind('<Double-1>', on_aircraft_click)  # Bind double click event to callback
     root.mainloop()
 
-show_list_of_aircraft()
+while quit == False: menu()
