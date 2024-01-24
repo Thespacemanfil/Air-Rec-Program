@@ -14,23 +14,22 @@ def clean_filename(filename):
 def slideshow_mode_selection():
     with open('paths.txt', 'w'): pass
     print("Welcome to 12F's aircraft recognition program by CPL Reisons (Hoping no malicious actor has modified any code)")
-    mode_selection = input("Competition, Casual, Learn, Custom or Test mode?\n").lower()
-    if mode_selection == "competition": slideshow_length = 30; slideshow_time = 10000; instant_reveal = False; intermission_time = 0; variance = 5; txt_file = "Competition.txt"; text_size = 20; extension = " aircraft"; timer = False
-    elif mode_selection == "casual": slideshow_length = 20; slideshow_time = 10000; instant_reveal = True; intermission_time = 5000; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
-    elif mode_selection == "test": slideshow_length = 3; slideshow_time = 4000; instant_reveal = True; intermission_time = 2000; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
-    elif mode_selection == "learn": slideshow_length = 10; slideshow_time = 99999; instant_reveal = True; intermission_time = 0; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = False
-    else:
-        slideshow_length = int(input("Amount of slides?\n"))
-        slideshow_time = int(input("Seconds per slide?\n")) * 1000
-        if input("Reveal answers immediately yes/no\n").lower() == "yes": instant_reveal = True
-        else: instant_reveal = False
-        intermission_time = int(input("Seconds of intermission?\n")) * 1000
-        variance = int(input("How many images per aircraft? (More images means more randomness but slower download speed)\n"))
-        text_size = int(input("Text size?\n"))
-        txt_file = input("Which list of aircraft do you want to draw from?\n") + ".txt"
-        extension = clean_filename(" " + input("Search modifier? e.g real aircraft, top view\n")).rstrip()
-        if input("Timer yes/no\n").lower() == "yes": timer = True
-        else: timer = False
+    match input("Competition, Casual, Learn, Custom or Test mode?\n").lower():
+        case "casual": slideshow_length = 20; slideshow_time = 10000; instant_reveal = True; intermission_time = 5000; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
+        case "test": slideshow_length = 3; slideshow_time = 4000; instant_reveal = True; intermission_time = 2000; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
+        case "learn": slideshow_length = 10; slideshow_time = 99999; instant_reveal = True; intermission_time = 0; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = False
+        case _:
+            slideshow_length = int(input("Amount of slides?\n"))
+            slideshow_time = int(input("Seconds per slide?\n")) * 1000
+            if input("Reveal answers immediately yes/no\n").lower() == "yes": instant_reveal = True
+            else: instant_reveal = False
+            intermission_time = int(input("Seconds of intermission?\n")) * 1000
+            variance = int(input("How many images per aircraft? (More images means more randomness but slower download speed)\n"))
+            text_size = int(input("Text size?\n"))
+            txt_file = input("Which list of aircraft do you want to draw from?\n") + ".txt"
+            extension = clean_filename(" " + input("Search modifier? e.g real aircraft, top view\n")).rstrip()
+            if input("Timer yes/no\n").lower() == "yes": timer = True
+            else: timer = False
 
     selected_aircraft = aircraft_selector(txt_file,slideshow_length)
     image_downloader(selected_aircraft,extension,variance)
