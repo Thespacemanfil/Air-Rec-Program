@@ -125,7 +125,6 @@ def show_image(remaining_time,timer,instant_reveal,text_size,cleaned_filename,im
     else:
         root.after(slideshow_time*1000, close_window)
 
-    
     root.mainloop()
               
 def run_slideshow(slideshow_time, text_size, timer, instant_reveal, selected_aircraft, intermission_time, extension, variance):
