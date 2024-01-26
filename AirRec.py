@@ -15,15 +15,15 @@ def slideshow_mode_selection():
     with open('paths.txt', 'w'): pass
     print("Welcome to 12F's aircraft recognition program by CPL Reisons (Hoping no malicious actor has modified any code)")
     match input("Competition, Casual, Learn, Custom or Test mode?\n").lower():
-        case "casual": slideshow_length = 20; slideshow_time = 10000; instant_reveal = True; intermission_time = 5000; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
-        case "test": slideshow_length = 3; slideshow_time = 4000; instant_reveal = True; intermission_time = 2000; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
-        case "learn": slideshow_length = 10; slideshow_time = 99999; instant_reveal = True; intermission_time = 0; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = False
+        case "casual": slideshow_length = 20; slideshow_time = 10; instant_reveal = True; intermission_time = 5; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
+        case "test": slideshow_length = 3; slideshow_time = 4; instant_reveal = True; intermission_time = 2; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
+        case "learn": slideshow_length = 10; slideshow_time = 999; instant_reveal = True; intermission_time = 0; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = False
         case _:
             slideshow_length = int(input("Amount of slides?\n"))
-            slideshow_time = int(input("Seconds per slide?\n")) * 1000
+            slideshow_time = int(input("Seconds per slide?\n"))
             if input("Reveal answers immediately yes/no\n").lower() == "yes": instant_reveal = True
             else: instant_reveal = False
-            intermission_time = int(input("Seconds of intermission?\n")) * 1000
+            intermission_time = int(input("Seconds of intermission?\n"))
             variance = int(input("How many images per aircraft? (More images means more randomness but slower download speed)\n"))
             text_size = int(input("Text size?\n"))
             txt_file = input("Which list of aircraft do you want to draw from?\n") + ".txt"
@@ -63,11 +63,11 @@ def image_downloader(selected_aircraft,extension,variance):
                 print("Saved to new path")
 
             print(f"Renamed {downloaded_file_path} to {new_file_path}")
+        else: print("Image downloader faliure")
         
-def show_image(remaining_time,timer,instant_reveal,intermission_time,text_size,cleaned_filename,image_path,slideshow_time,intermission):
+def show_image(remaining_time,timer,instant_reveal,text_size,cleaned_filename,image_path,slideshow_time,intermission):
     root = tk.Tk()
     root.title("Aircraft Image")
-    
     w, h = root.winfo_screenwidth(), root.winfo_screenheight()
     root.geometry(f"{w}x{h}")  
     
@@ -88,9 +88,9 @@ def show_image(remaining_time,timer,instant_reveal,intermission_time,text_size,c
             timer_label.place_forget()
     
     def place_aircraft_name():
-        if instant_reveal and intermission and intermission_time > 0:
+        if instant_reveal and intermission and remaining_time > 0:
             aircraft_label.place(x=w/2, y=h/2, anchor="center")
-        elif instant_reveal and not intermission and intermission_time == 0:
+        elif instant_reveal and not intermission and remaining_time == 0:
             aircraft_label.place(x=w/2, y=35, anchor="center")
         elif hasattr(aircraft_label, 'place'):
             aircraft_label.place_forget()
@@ -108,7 +108,6 @@ def show_image(remaining_time,timer,instant_reveal,intermission_time,text_size,c
         if remaining_time > 0:
             root.after(1000, update_timer)
 
-    remaining_time = remaining_time  # Initialize remaining_time here
     update_timer()
     
     def on_image_resize(event):
@@ -121,26 +120,26 @@ def show_image(remaining_time,timer,instant_reveal,intermission_time,text_size,c
     
     if intermission:
         root.configure(bg='black')
-        root.after(intermission_time, close_window)
+        root.after(remaining_time*1000, close_window)
     else:
-        root.after(slideshow_time, close_window)
+        root.after(slideshow_time*1000, close_window)
 
     
     root.mainloop()
               
 def run_slideshow(slideshow_time, text_size, timer, instant_reveal, selected_aircraft, intermission_time, extension, variance):
     for aircraft in selected_aircraft:
-        remaining_time = slideshow_time // 1000
+        remaining_time = slideshow_time
         cleaned_filename = clean_filename(aircraft)
         image_path = os.path.join('C:/aircraft_recognition_program/images/' + aircraft + extension + '/Image_' + str(random.randint(1, variance)) + '.jpg')
         with open("paths.txt", "a") as f:
             f.write(image_path + "\n")
         
         if os.path.exists(image_path):
-            show_image(remaining_time, timer, instant_reveal, intermission_time // 1000, text_size, cleaned_filename, image_path, slideshow_time, False)
+            show_image(remaining_time, timer, instant_reveal, text_size, cleaned_filename, image_path, slideshow_time, False)
             
             if intermission_time > 0:
-                show_image(remaining_time / 2, timer, instant_reveal, intermission_time, text_size, cleaned_filename, image_path, slideshow_time, True)
+                show_image(intermission_time, timer, instant_reveal, text_size, cleaned_filename, image_path, slideshow_time, True)
         else:
             print(f"Image not found: {cleaned_filename}")
 
