@@ -31,5 +31,5 @@ Su-22 Fitter
 Su-25 Frogfoot
 Su-27 Flanker
 Su-30
-Su-34
+Su-34 Fullback
 Su-35
