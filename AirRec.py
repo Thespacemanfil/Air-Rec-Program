@@ -19,7 +19,7 @@ def slideshow_mode_selection():
         case "test": slideshow_length = 3; slideshow_time = 4; instant_reveal = True; intermission_time = 2; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
         case "learn": slideshow_length = 10; slideshow_time = 999; instant_reveal = True; intermission_time = 0; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = False
         case _:
-            slideshow_length = int(input("Amount of slides?\n"))
+            slideshow_length = int(input("Amount of slides? -1 slides will run through all aircraft in the list\n"))
             slideshow_time = int(input("Seconds per slide?\n"))
             if input("Reveal answers immediately yes/no\n").lower() == "yes": instant_reveal = True
             else: instant_reveal = False
@@ -40,9 +40,12 @@ def aircraft_selector(txt_file,slideshow_length):
     with open(txt_file, 'r') as file:
         aircraft_list = file.read().splitlines()
 
-    selected_aircraft = random.sample(aircraft_list, slideshow_length)
-    random.shuffle(selected_aircraft)
-    return selected_aircraft
+    if slideshow_length <= len(aircraft_list) and slideshow_length > 0:
+        selected_aircraft = random.sample(aircraft_list, slideshow_length)
+        return selected_aircraft
+    elif slideshow_length == -1:
+        return aircraft_list
+    else: print("INVALID SLIDESHOW LENGTH")
 
 def image_downloader(selected_aircraft,extension,variance):
     for aircraft in selected_aircraft:
@@ -51,7 +54,6 @@ def image_downloader(selected_aircraft,extension,variance):
         if downloaded_files:
             downloaded_file_path = downloaded_files[0]
             new_file_path = os.path.join('C:/aircraft_recognition_program/images/')
-        
             image = Image.open(downloaded_file_path)
             if image.format != 'JPEG':
                 image = image.convert('RGB')
@@ -63,7 +65,6 @@ def image_downloader(selected_aircraft,extension,variance):
                 print("Saved to new path")
 
             print(f"Renamed {downloaded_file_path} to {new_file_path}")
-        else: print("Image downloader faliure")
         
 def show_image(remaining_time,timer,instant_reveal,text_size,cleaned_filename,image_path,slideshow_time,intermission):
     root = tk.Tk()
