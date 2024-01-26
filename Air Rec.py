@@ -59,7 +59,6 @@ def image_downloader(selected_aircraft,extension,variance):
                 print("converted to jpeg and Saved to new path")
                 os.remove(downloaded_file_path)
             else:
-                import shutil
                 shutil.move(downloaded_file_path, new_file_path)
                 print("Saved to new path")
 
