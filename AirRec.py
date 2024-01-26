@@ -13,7 +13,7 @@ def clean_filename(filename):
 
 def slideshow_mode_selection():
     with open('paths.txt', 'w'): pass
-    print("Welcome to 12F's aircraft recognition program by CPL Reisons (Hoping no malicious actor has modified any code)")
+    print("Aircraft Recognition Program")
     match input("Competition, Casual, Learn, Custom or Test mode?\n").lower():
         case "casual": slideshow_length = 20; slideshow_time = 10; instant_reveal = True; intermission_time = 5; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
         case "test": slideshow_length = 3; slideshow_time = 4; instant_reveal = True; intermission_time = 2; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
@@ -66,7 +66,7 @@ def image_downloader(selected_aircraft,extension,variance):
 
             print(f"Renamed {downloaded_file_path} to {new_file_path}")
         
-def show_image(remaining_time,timer,instant_reveal,text_size,cleaned_filename,image_path,slideshow_time,intermission):
+def show_image(remaining_time,timer,instant_reveal,text_size,cleaned_filename,image_path,slideshow_time,intermission,intermission_time):
     root = tk.Tk()
     root.title("Aircraft Image")
     w, h = root.winfo_screenwidth(), root.winfo_screenheight()
@@ -89,9 +89,9 @@ def show_image(remaining_time,timer,instant_reveal,text_size,cleaned_filename,im
             timer_label.place_forget()
     
     def place_aircraft_name():
-        if instant_reveal and intermission and remaining_time > 0:
+        if instant_reveal and intermission and intermission_time > 0:
             aircraft_label.place(x=w/2, y=h/2, anchor="center")
-        elif instant_reveal and not intermission and remaining_time == 0:
+        elif instant_reveal and not intermission and intermission_time == 0:
             aircraft_label.place(x=w/2, y=35, anchor="center")
         elif hasattr(aircraft_label, 'place'):
             aircraft_label.place_forget()
@@ -137,10 +137,10 @@ def run_slideshow(slideshow_time, text_size, timer, instant_reveal, selected_air
             f.write(image_path + "\n")
         
         if os.path.exists(image_path):
-            show_image(remaining_time, timer, instant_reveal, text_size, cleaned_filename, image_path, slideshow_time, False)
+            show_image(remaining_time, timer, instant_reveal, text_size, cleaned_filename, image_path, slideshow_time, False, intermission_time)
             
             if intermission_time > 0:
-                show_image(intermission_time, timer, instant_reveal, text_size, cleaned_filename, image_path, slideshow_time, True)
+                show_image(intermission_time, timer, instant_reveal, text_size, cleaned_filename, image_path, slideshow_time, True, intermission_time)
         else:
             print(f"Image not found: {cleaned_filename}")
 
@@ -166,7 +166,6 @@ def open_image(photo_references, image_path, aircraft_name):
 
     root.mainloop()
 
-# Modify the show_list_of_aircraft function to add a callback function
 def show_list_of_aircraft(selected_aircraft,text_size):
     def on_aircraft_click(event):
         photo_references = []
