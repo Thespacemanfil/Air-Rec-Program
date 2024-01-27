@@ -60,7 +60,7 @@ def image_downloader(selected_aircraft,extension,variance):
 
             print(f"Renamed {downloaded_file_path} to {new_file_path}")
         
-def show_image(remaining_time,timer,instant_reveal,text_size,cleaned_filename,image_path,slideshow_time,intermission,intermission_time):
+def show_image(remaining_time,timer,instant_reveal,text_size,filename,image_path,slideshow_time,intermission,intermission_time):
     root = tk.Tk()
     root.title("Aircraft Image")
     w, h = root.winfo_screenwidth(), root.winfo_screenheight()
@@ -93,7 +93,7 @@ def show_image(remaining_time,timer,instant_reveal,text_size,cleaned_filename,im
     timer_label = ttk.Label(root, text=str(remaining_time), font=('Arial', text_size), foreground='orange')
     place_timer_label()
     
-    aircraft_label = ttk.Label(root, text=cleaned_filename, font=('Arial', text_size), foreground='white', background='black')
+    aircraft_label = ttk.Label(root, text=filename, font=('Arial', text_size), foreground='white', background='black')
     place_aircraft_name()
     
     def update_timer():
@@ -129,10 +129,10 @@ def run_slideshow(slideshow_time, text_size, timer, instant_reveal, selected_air
             f.write(image_path + "\n")
         
         if os.path.exists(image_path):
-            show_image(remaining_time, timer, instant_reveal, text_size, cleaned_filename, image_path, slideshow_time, False, intermission_time)
+            show_image(remaining_time, timer, instant_reveal, text_size, aircraft, image_path, slideshow_time, False, intermission_time)
             
             if intermission_time > 0:
-                show_image(intermission_time, timer, instant_reveal, text_size, cleaned_filename, image_path, slideshow_time, True, intermission_time)
+                show_image(intermission_time, timer, instant_reveal, text_size, aircraft, image_path, slideshow_time, True, intermission_time)
         else:
             print(f"Image not found: {aircraft}")
 
