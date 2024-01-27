@@ -10,9 +10,9 @@ def slideshow_mode_selection():
     print("---Aircraft Recognition Program---")
     match input("Resources or slides?\n").lower():
         case "slides":
-            match input("Competition, Casual, Learn, Custom or Test mode?\n").lower():
-                case "casual": slideshow_length = 20; slideshow_time = 10; instant_reveal = True; intermission_time = 5; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
-                case "test": slideshow_length = 3; slideshow_time = 4; instant_reveal = True; intermission_time = 2; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
+            match input("competition, casual, learn or custom mode?\n").lower():
+                case "competition": slideshow_length = 30; slideshow_time = 10; instant_reveal = False; intermission_time = 0; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " airplane"; timer = True
+                case "casual": slideshow_length = 20; slideshow_time = 10; instant_reveal = False; intermission_time = 5; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
                 case "learn": slideshow_length = 10; slideshow_time = 999; instant_reveal = True; intermission_time = 0; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = False
                 case _:
                     slideshow_length = int(input("Amount of slides? -1 slides will run through all aircraft in the list\n"))
@@ -21,11 +21,12 @@ def slideshow_mode_selection():
                     else: instant_reveal = False
                     intermission_time = int(input("Seconds of intermission?\n"))
                     variance = int(input("How many images per aircraft? (More images means more randomness but slower download speed)\n"))
-                    text_size = int(input("Text size?\n"))
+                    text_size = int(input("Text size? \n"))
                     txt_file = input("Which list of aircraft do you want to draw from?\n") + ".txt"
-                    extension = " " + input("Search modifier? e.g real aircraft, top view\n").rstrip()
-                    if input("Timer yes/no\n").lower() == "yes": timer = True
+                    extension = " " + input("Search modifier? (not necessary) e.g real aircraft, top view\n").rstrip()
+                    if input("Visible countdown timer yes/no\n").lower() == "yes": timer = True
                     else: timer = False
+        case "test": slideshow_length = 3; slideshow_time = 4; instant_reveal = True; intermission_time = 2; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
         case "resources": print("https://aviationgeeks.co.uk/air-rec/air-cadet-list/")
         case _: slideshow_mode_selection()
 
