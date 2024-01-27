@@ -1,15 +1,9 @@
 from bing_image_downloader import downloader
-import random, os, re, shutil
+import random, os, shutil
 from PIL import Image, ImageTk
 import tkinter as tk
 from tkinter import ttk
 quit = False
-
-def menu():
-    slideshow_mode_selection()
-
-def clean_filename(filename):
-    return re.sub(r"[\\/*?:<>|]", '', filename)
 
 def slideshow_mode_selection():
     with open('paths.txt', 'w'): pass
@@ -27,7 +21,7 @@ def slideshow_mode_selection():
             variance = int(input("How many images per aircraft? (More images means more randomness but slower download speed)\n"))
             text_size = int(input("Text size?\n"))
             txt_file = input("Which list of aircraft do you want to draw from?\n") + ".txt"
-            extension = clean_filename(" " + input("Search modifier? e.g real aircraft, top view\n")).rstrip()
+            extension = " " + input("Search modifier? e.g real aircraft, top view\n").rstrip()
             if input("Timer yes/no\n").lower() == "yes": timer = True
             else: timer = False
 
@@ -130,7 +124,6 @@ def show_image(remaining_time,timer,instant_reveal,text_size,cleaned_filename,im
 def run_slideshow(slideshow_time, text_size, timer, instant_reveal, selected_aircraft, intermission_time, extension, variance):
     for aircraft in selected_aircraft:
         remaining_time = slideshow_time
-        cleaned_filename = clean_filename(aircraft)
         image_path = os.path.join('C:/aircraft_recognition_program/images/' + aircraft + extension + '/Image_' + str(random.randint(1, variance)) + '.jpg')
         with open("paths.txt", "a") as f:
             f.write(image_path + "\n")
@@ -141,7 +134,7 @@ def run_slideshow(slideshow_time, text_size, timer, instant_reveal, selected_air
             if intermission_time > 0:
                 show_image(intermission_time, timer, instant_reveal, text_size, cleaned_filename, image_path, slideshow_time, True, intermission_time)
         else:
-            print(f"Image not found: {cleaned_filename}")
+            print(f"Image not found: {aircraft}")
 
 def open_image(photo_references, image_path, aircraft_name):
     root = tk.Toplevel()  # Use Toplevel instead of Tk
@@ -178,7 +171,6 @@ def show_list_of_aircraft(selected_aircraft,text_size):
 
     root = tk.Tk()
     root.title("List of Selected Aircraft")
-    
     listbox = tk.Listbox(root, font=('Arial', text_size), selectbackground='lightblue', selectforeground='black')
     listbox.pack(fill=tk.BOTH, expand=tk.YES)
     
@@ -188,4 +180,4 @@ def show_list_of_aircraft(selected_aircraft,text_size):
     listbox.bind('<Double-1>', on_aircraft_click)  # Bind double click event to callback
     root.mainloop()
 
-while quit == False: menu()
+while quit == False: slideshow_mode_selection()
