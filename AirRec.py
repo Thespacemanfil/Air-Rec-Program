@@ -1,5 +1,5 @@
 from bing_image_downloader import downloader
-import random, os, shutil
+import random, os, shutil, glob
 from PIL import Image, ImageTk
 import tkinter as tk
 from tkinter import ttk
@@ -8,7 +8,7 @@ quit = False
 def slideshow_mode_selection():
     with open('paths.txt', 'w'): pass
     print("---Aircraft Recognition Program---")
-    match input("Resources or slides?\n").lower():
+    match input("Guide or slides?\n").lower():
         case "slides":
             match input("competition, casual, learn or custom mode?\n").lower():
                 case "competition": slideshow_length = 30; slideshow_time = 10; instant_reveal = False; intermission_time = 0; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " airplane"; timer = True
@@ -27,7 +27,8 @@ def slideshow_mode_selection():
                     if input("Visible countdown timer yes/no\n").lower() == "yes": timer = True
                     else: timer = False
         case "test": slideshow_length = 5; slideshow_time = 3; instant_reveal = True; intermission_time = 1; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
-        case "resources": print("https://aviationgeeks.co.uk/air-rec/air-cadet-list/")
+        case "Guide":
+            print("https://aviationgeeks.co.uk/air-rec/air-cadet-list/")
         case _: slideshow_mode_selection()
 
     selected_aircraft = aircraft_selector(txt_file,slideshow_length)
@@ -125,16 +126,13 @@ def show_image(remaining_time,timer,instant_reveal,text_size,filename,image_path
         root.after(slideshow_time*1000, close_window)
 
     root.mainloop()
-              
-import os
 
 def run_slideshow(slideshow_time, text_size, timer, instant_reveal, selected_aircraft, intermission_time, extension, variance):
     for aircraft in selected_aircraft:
         remaining_time = slideshow_time
         folder_path = os.path.join('C:/aircraft_recognition_program/images/' + aircraft + extension) # get the folder path for each aircraft
         images = [f for f in os.listdir(folder_path) if f.endswith(".png") or f.endswith(".jpg") or f.endswith(".jpeg")] # list the image files in the folder
-        if not images: # check if the folder is empty
-            raise Exception(f"Folder is empty: {folder_path}") # raise an exception with the folder name
+        if not images: print("All"+aircraft+"failed to download")
         random_image = random.choice(images) # pick a random image
         image_path = os.path.join(folder_path, random_image) # get the full image path
         with open("paths.txt", "a") as f:
