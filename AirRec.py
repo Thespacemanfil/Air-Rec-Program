@@ -20,8 +20,8 @@ def slideshow_mode_selection():
                     if input("Reveal answers immediately yes/no\n").lower() == "yes": instant_reveal = True
                     else: instant_reveal = False
                     intermission_time = int(input("Seconds of intermission?\n"))
-                    variance = int(input("How many images per aircraft? (More images means more randomness but slower download speed)\n"))
-                    text_size = int(input("Text size? \n"))
+                    variance = 2
+                    text_size = 50
                     txt_file = input("Which list of aircraft do you want to draw from?\n") + ".txt"
                     extension = " " + input("Search modifier? (not necessary) e.g real aircraft, top view\n").rstrip()
                     if input("Visible countdown timer yes/no\n").lower() == "yes": timer = True
