@@ -20,13 +20,13 @@ def slideshow_mode_selection():
                     if input("Reveal answers immediately yes/no\n").lower() == "yes": instant_reveal = True
                     else: instant_reveal = False
                     intermission_time = int(input("Seconds of intermission?\n"))
-                    variance = 2
+                    variance = 3
                     text_size = 50
                     txt_file = input("Which list of aircraft do you want to draw from?\n") + ".txt"
                     extension = " " + input("Search modifier? (not necessary) e.g real aircraft, top view\n").rstrip()
                     if input("Visible countdown timer yes/no\n").lower() == "yes": timer = True
                     else: timer = False
-        case "test": slideshow_length = 3; slideshow_time = 4; instant_reveal = True; intermission_time = 2; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
+        case "test": slideshow_length = 5; slideshow_time = 3; instant_reveal = True; intermission_time = 1; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
         case "resources": print("https://aviationgeeks.co.uk/air-rec/air-cadet-list/")
         case _: slideshow_mode_selection()
 
@@ -126,10 +126,17 @@ def show_image(remaining_time,timer,instant_reveal,text_size,filename,image_path
 
     root.mainloop()
               
+import os
+
 def run_slideshow(slideshow_time, text_size, timer, instant_reveal, selected_aircraft, intermission_time, extension, variance):
     for aircraft in selected_aircraft:
         remaining_time = slideshow_time
-        image_path = os.path.join('C:/aircraft_recognition_program/images/' + aircraft + extension + '/Image_' + str(random.randint(1, variance)) + '.jpg')
+        folder_path = os.path.join('C:/aircraft_recognition_program/images/' + aircraft + extension) # get the folder path for each aircraft
+        images = [f for f in os.listdir(folder_path) if f.endswith(".png") or f.endswith(".jpg") or f.endswith(".jpeg")] # list the image files in the folder
+        if not images: # check if the folder is empty
+            raise Exception(f"Folder is empty: {folder_path}") # raise an exception with the folder name
+        random_image = random.choice(images) # pick a random image
+        image_path = os.path.join(folder_path, random_image) # get the full image path
         with open("paths.txt", "a") as f:
             f.write(image_path + "\n")
         
