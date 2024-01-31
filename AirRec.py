@@ -1,19 +1,18 @@
 from bing_image_downloader import downloader
-import random, os, shutil, glob
+import random, os, glob
 from PIL import Image, ImageTk
 import tkinter as tk
 from tkinter import ttk
-quit = False
 
-def slideshow_mode_selection():
+def menu():
     with open('paths.txt', 'w'): pass
     print("---Aircraft Recognition Program---")
-    match input("Guide or slides?\n").lower():
-        case "slides":
+    match input("Guide or slideshow?\n").lower():
+        case "slideshow":
             match input("competition, casual, learn or custom mode?\n").lower():
-                case "competition": slideshow_length = 30; slideshow_time = 10; instant_reveal = False; intermission_time = 0; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " airplane"; timer = True
-                case "casual": slideshow_length = 20; slideshow_time = 10; instant_reveal = False; intermission_time = 5; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
-                case "learn": slideshow_length = 10; slideshow_time = 999; instant_reveal = True; intermission_time = 0; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = False
+                case "competition": slideshow_length = 30; slideshow_time = 10; instant_reveal = False; intermission_time = 0; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " airplane"; timer = True; slideshow(slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer)
+                case "casual": slideshow_length = 20; slideshow_time = 10; instant_reveal = False; intermission_time = 5; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True; slideshow(slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer)
+                case "learn": slideshow_length = 10; slideshow_time = 999; instant_reveal = True; intermission_time = 0; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = False; slideshow(slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer)
                 case _:
                     slideshow_length = int(input("Amount of slides? -1 slides will run through all aircraft in the list\n"))
                     slideshow_time = int(input("Seconds per slide?\n"))
@@ -22,19 +21,22 @@ def slideshow_mode_selection():
                     intermission_time = int(input("Seconds of intermission?\n"))
                     variance = 3
                     text_size = 50
-                    txt_file = input("Which list of aircraft do you want to draw from?\n") + ".txt"
+                    txt_file = input("Which list of aircraft do you want to draw from? " + str(glob.glob("*.txt")) + "\n")
                     extension = " " + input("Search modifier? (not necessary) e.g real aircraft, top view\n").rstrip()
                     if input("Visible countdown timer yes/no\n").lower() == "yes": timer = True
                     else: timer = False
-        case "test": slideshow_length = 5; slideshow_time = 3; instant_reveal = True; intermission_time = 1; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True
+                    slideshow(slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer)
+        case "test": slideshow_length = 5; slideshow_time = 3; instant_reveal = True; intermission_time = 1; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True; slideshow(slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer)
         case "Guide":
             print("https://aviationgeeks.co.uk/air-rec/air-cadet-list/")
-        case _: slideshow_mode_selection()
+        case _: menu()
 
+def slideshow(slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer):
     selected_aircraft = aircraft_selector(txt_file,slideshow_length)
     image_downloader(selected_aircraft,extension,variance)
-    run_slideshow(slideshow_time,text_size,timer,instant_reveal,selected_aircraft,intermission_time,extension,variance)
+    run_slideshow(slideshow_time,text_size,timer,instant_reveal,selected_aircraft,intermission_time,extension)
     show_list_of_aircraft(selected_aircraft,text_size)
+    menu()
 
 def aircraft_selector(txt_file,slideshow_length):
     with open(txt_file, 'r') as file:
@@ -50,21 +52,7 @@ def aircraft_selector(txt_file,slideshow_length):
 def image_downloader(selected_aircraft,extension,variance):
     for aircraft in selected_aircraft:
         query = aircraft + extension
-        downloaded_files = downloader.download(query, limit=variance, output_dir='C:/aircraft_recognition_program/images/', adult_filter_off=False, force_replace=True, timeout=60, filter="photo", verbose=True)
-        if downloaded_files:
-            downloaded_file_path = downloaded_files[0]
-            new_file_path = os.path.join('C:/aircraft_recognition_program/images/')
-            image = Image.open(downloaded_file_path)
-            if image.format != 'JPEG':
-                image = image.convert('RGB')
-                image.save(new_file_path)
-                print("converted to jpeg and Saved to new path")
-                os.remove(downloaded_file_path)
-            else:
-                shutil.move(downloaded_file_path, new_file_path)
-                print("Saved to new path")
-
-            print(f"Renamed {downloaded_file_path} to {new_file_path}")
+        downloader.download(query, limit=variance, output_dir='C:/aircraft_recognition_program/images/', adult_filter_off=False, force_replace=False, timeout=60, filter="photo", verbose=False)
         
 def show_image(remaining_time,timer,instant_reveal,text_size,filename,image_path,slideshow_time,intermission,intermission_time):
     root = tk.Tk()
@@ -127,7 +115,7 @@ def show_image(remaining_time,timer,instant_reveal,text_size,filename,image_path
 
     root.mainloop()
 
-def run_slideshow(slideshow_time, text_size, timer, instant_reveal, selected_aircraft, intermission_time, extension, variance):
+def run_slideshow(slideshow_time, text_size, timer, instant_reveal, selected_aircraft, intermission_time, extension):
     for aircraft in selected_aircraft:
         remaining_time = slideshow_time
         folder_path = os.path.join('C:/aircraft_recognition_program/images/' + aircraft + extension) # get the folder path for each aircraft
@@ -190,4 +178,4 @@ def show_list_of_aircraft(selected_aircraft,text_size):
     listbox.bind('<Double-1>', on_aircraft_click)  # Bind double click event to callback
     root.mainloop()
 
-while quit == False: slideshow_mode_selection()
+menu()
