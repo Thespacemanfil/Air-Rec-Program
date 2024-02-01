@@ -99,11 +99,6 @@ def show_image(remaining_time,timer,instant_reveal,text_size,filename,image_path
 
     update_timer()
     
-    def on_image_resize(event):
-        place_timer_label()  
-        place_aircraft_name()  
-    root.bind('<Configure>', on_image_resize)
-    
     def close_window():
         root.destroy()
     
