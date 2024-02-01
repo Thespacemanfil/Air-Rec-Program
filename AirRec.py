@@ -115,19 +115,15 @@ def run_slideshow(slideshow_time, text_size, timer, instant_reveal, selected_air
         remaining_time = slideshow_time
         folder_path = os.path.join('C:/aircraft_recognition_program/images/' + aircraft + extension) # get the folder path for each aircraft
         images = [f for f in os.listdir(folder_path) if f.endswith(".png") or f.endswith(".jpg") or f.endswith(".jpeg")] # list the image files in the folder
-        if not images: print("All"+aircraft+"failed to download")
+        if not images: print(f"Image not found: {aircraft}"); break
         random_image = random.choice(images) # pick a random image
         image_path = os.path.join(folder_path, random_image) # get the full image path
         with open("paths.txt", "a") as f:
             f.write(image_path + "\n")
         
-        if os.path.exists(image_path):
-            show_image(remaining_time, timer, instant_reveal, text_size, aircraft, image_path, slideshow_time, False, intermission_time)
-            
-            if intermission_time > 0:
-                show_image(intermission_time, timer, instant_reveal, text_size, aircraft, image_path, slideshow_time, True, intermission_time)
-        else:
-            print(f"Image not found: {aircraft}")
+        show_image(remaining_time, timer, instant_reveal, text_size, aircraft, image_path, slideshow_time, False, intermission_time)
+        
+        if intermission_time > 0: show_image(intermission_time, timer, instant_reveal, text_size, aircraft, image_path, slideshow_time, True, intermission_time)
 
 def open_image(photo_references, image_path, aircraft_name):
     root = tk.Toplevel()  # Use Toplevel instead of Tk
