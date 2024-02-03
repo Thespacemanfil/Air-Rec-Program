@@ -1,0 +1,397 @@
+AMX AMX International A-11 Ghibli
+Hawk BAe T45 Goshawk
+Hawk BAe Hawk 100
+Hawk 200 BAe
+Hawk BAe T2
+Eagle Boeing (McDonnell Douglas) F-15
+Eagle Boeing (McDonnell Douglas) F-15E Strike Eagle
+Alpha Jet Dassault / Dornier
+Harrier II McDonnell Douglas (BAe) AV-8B
+Harrier II McDonnell Douglas (BAe) TAV-8B
+Mirage F1 Dassault
+Foxbat Mikoyan-Guryevich MiG-25
+Foxhound Mikoyan-Guryevich MiG-31
+Fulcrum Mikoyan-Guryevich MiG-35
+Fulcrum Mikoyan-Guryevich MiG-29
+Spirit Northrop B-2A
+Saab 105 Saab SK-60
+Flanker Sukhoi Su-27
+Flanker Sukhoi Su-30
+Flanker Sukhoi Su-33
+Flanker Sukhoi Su-35
+Fullback Sukhoi Su-32
+Fullback Sukhoi Su-34
+MB-339 Aermacchi
+M-346 Alenia Aermacchi Master
+Albatros Aero Vodochody L-39
+Albatros Aero Vodochody L-59
+Freedom Fighter Northrop F-5 Tiger II
+Hornet Boeing F/A-18 A
+Hornet Boeing F/A-18 B
+Hornet Boeing F/A-18 C
+Hornet Boeing F/A-18 D
+Hornet Boeing F/A-18 CF-18
+Super Hornet Boeing F/A-18 E
+Super Hornet Boeing F/A-18 F
+Growler Boeing EA-18G
+Fighting Falcon Lockheed Martin F-16
+Raptor Lockheed Martin F-22
+Lightning II Lockheed Martin F-35 A
+Lightning II Lockheed Martin F-35 B
+Lightning II Lockheed Martin F-35 C
+U-2S Lockheed Martin TR-1
+Frogfoot Sukhoi Su-25
+Dornier 328 Jet Dornier (Fairchild)
+Embraer E170
+Embraer E175
+Embraer E190
+Embraer E195
+C-390 Embraer
+Bombardier CS100
+Bombardier CS300
+A220 Airbus
+A300 Airbus
+A 310 Airbus A 310 MRCTT
+A 310 Airbus A 310 CC-150
+A 310 Airbus A 310 Polaris
+A 318 Airbus
+A 319 Airbus
+A 320 Airbus
+A 321 Airbus
+A 330 Airbus
+A 340 Airbus
+A 350 Airbus
+Airbus XWB 900
+A 380 Airbus
+A 330 MRTT Airbus Voyager
+A 330 MRTT Airbus KC-30
+A 330 MRTT Airbus Phoenix
+Coaler Antonov An-72
+Coaler Antonov An-74
+Condor Antonov An-124
+AN-148 Antonov
+Mainstay Beriev A50
+Midas Ilyushin IL-78
+Camber Ilyushin IL-86
+Maxdome Ilyushin IL-80
+Maxdome Ilyushin IL86VKP
+IL-96 Ilyushin
+Tu-204 Tupolev
+Tu-214 Tupolev
+SuperJet Sukhoi SJ100
+BAe146 BAe RJ-85
+BAe146 BAe RJ-100
+737 Boeing 737-200
+737 Boeing 737-300
+737 Boeing 737-400
+737 Boeing 737-500
+737 Boeing 737-600
+737 Boeing 737-700
+737 Boeing 737-800
+737 Boeing 737-900
+737 Boeing 737 Clipper
+737 Boeing C-40
+747 Boeing
+747-404 (LCF) Boeing Dreamlifter
+757 Boeing
+C-32 Boeing
+767 Boeing
+E-767 Boeing
+777 Boeing
+787 Boeing Dreamliner
+Mercury Boeing E6 Hermes
+Rivet Joint Boeing RC-135W
+Sentry Boeing E-3
+Joint Stars Boeing E-8
+Stratofortress Boeing B 52
+Stratotanker Boeing KC 135
+Stratotanker Boeing C 135F
+Stratotanker Boeing KC 137
+Wedgetail Boeing B737AEW E7T Peace Eagle
+Poseidon Boeing P8
+Boeing KC-767
+Boeing KC-46 Pegasus
+Globemaster III Boeing (McDonnell Douglas) C-17
+Candid Ilyushin IL-76
+Galaxy Lockheed Martin C-5M
+KC-10 McDonnell Douglas Extender
+MD11 McDonnell Douglas
+BAe 125 BAe Dominie
+BAe 125 BAe Hawker 1000
+Boeing 717 MD-95
+Boeing MD-80
+Boeing MD-90
+B727 Boeing
+Challenger 300 Bombardier Canadair BD-100
+Challenger 300 Bombardier Canadair CL-350
+Challenger 600 Bombardier Canadair CL-600
+Challenger 600 Bombardier Canadair CL-601
+Challenger 600 Bombardier Canadair CL-604
+Challenger 600 Bombardier Canadair CL-605
+Challenger 600 Bombardier Canadair CL-650
+CRJ100 Bombardier Canadair
+CRJ200 Bombardier Canadair
+CRJ700 Bombardier Canadair CRJ900
+CRJ700 Bombardier Canadair CRJ1000
+Fokker 70
+Fokker 100
+Citation III
+Citation VI
+Citation VII
+Cessna 650
+Citation X Cessna 750
+Gulfstream II Gulfstream Aerospace G-1159
+Gulfstream III Gulfstream Aerospace C20A
+Gulfstream IV Gulfstream Aerospace C-37A
+Gulfstream V Gulfstream Aerospace C-37A
+Beechjet 400 Raytheon T-1 Jayhawk T-400
+Sentinel R1 Bombardier
+Global Express Bombardier BD-700
+Global Express Bombardier XRS5000
+Global Express Bombardier XRS6000
+Global Express Bombardier XRS5500
+Global Express Bombardier XRS6500
+Global Express Bombardier XRS7500
+Falcon 200 Dassault Falcon 20
+Falcon 10 Dassault 100 MER
+Falcon 900 Dassault 900LX
+ERJ 135 Embraer Legacy 600
+ERJ 145 Embraer Legacy 650
+EMB R99A Embraer E-99
+EMB R99B Embraer R-99
+Classic Ilyushin IL-62
+Careless Tupolev Tu-154
+Crusty Tupolev Tu-134
+Learjet 35 Learjet C-21A
+Learjet 36 Learjet U-36A
+Learjet 45 Learjet (Bombardier)
+Learjet 55 Learjet
+Learjet 60 Learjet
+Citation I Cessna 500
+Phenom 100 Embraer EMB 500
+Thunderbolt II Fairchild Republic A10 A
+Thunderbolt II Fairchild Republic A10 C
+Mirage 2000 Dassault
+Rafale Dassault
+Typhoon Eurofighter EF 2000
+Fishbed Mikoyan-Guryevich MiG-21
+Fishbed Mikoyan-Guryevich MiG-21U Mongol
+Flogger Mikoyan-Guryevich MiG-23
+Flogger Mikoyan-Guryevich MiG-27
+Tornado Panavia IDS
+Tornado Panavia ECR
+Lancer Rockwell B-1B
+Gripen Saab JAS-39
+Fencer Sukhoi Su-24
+Backfire Tupolev Tu-22M
+Fitter Sukhoi Su-17
+Fitter Sukhoi Su-20
+Fitter Sukhoi Su-22
+Blackjack Tupolev Tu-160
+Beech 1900C Beech
+Beech 1900D Beech
+Beech 99 Beechcraft
+King Air 90 Beech Raytheon
+King Air 100 Beech Raytheon
+(Super) King Air
+Beech Raytheon 350 Avenger
+Beech Raytheon 350ER Shadow
+Beech Raytheon C-12X
+Titan Cessna 404
+Titan Cessna C-28
+Bandeirante Embraer EMB-110
+Brasilia Embraer EMB-120
+Bandeirante Embraer C-95
+Brasilia Embraer C-97
+Xingu Embraer EMB-121
+Metro Fairchild (Swearingen) C-26 Merlin
+Aztec Piper PA-23
+Apache Piper U11A
+Cheyenne III Piper PA-42
+Navajo Piper PA-31
+Seneca Piper PA-34
+Seneca Embraer EMB-810
+Saab 2000 Saab
+Saab 340 Saab TP100
+Saab 340 Saab S100D
+Jetstream BAe 31
+Jetstream BAe 41
+(Super) King Air 200 Beechcraft B200
+(Super) King Air 200 Beechcraft RC12 Huron
+(Super) King Air 200 Beechcraft Guardrail
+Atlantic Dassault (Breguet) Br1150 Atlantic II
+DA 42 Diamond Twin Star
+Dakota Douglas DC3
+Dakota Douglas C47 Skytrain
+Dakota Douglas C53 skytrooper
+Dakota Douglas C117
+ATR-42 Avions de Transport Regional
+ATR-72 Avions de Transport Regional
+Trislander Britten Norman
+Dash 8 De Havilland Canada CC-142
+Dash 8 De Havilland Canada E-9 Widget
+Twin Otter De Havilland Canada DHC-6
+Dornier 228 Dornier
+Dornier (Fairchild) C-146A Wolfhound
+Turbolet Let L-410
+Avanti Piaggio P-180
+Shorts 330 Shorts
+Shorts 360 Shorts
+C-23 Sherpa Shorts
+C-27J Alenia Spartan G-222
+Clank Antonov An-30
+Cline Antonov An-32
+Coke Antonov An-24
+Curl Antonov An-26
+Cash PZL (Antonov) An-28
+Cash PZL (Antonov) M-28 Bryza
+Cash PZL (Antonov) C-145 Skytruck
+Islander Britten Norman BN-2 Defender
+Aviocar Casa C-212
+CN-235 CASA
+Airbus CN-295
+HH-144 Ocean Sentry
+F-50 Fokker
+F-60 Fokker
+Greyhound Grumman C-2
+Hawkeye Northrop Grumman E-2C
+C-160 Transall
+A400M Airbus Atlas
+Cub Antonov An-12
+Lancaster Avro
+May Ilyushin IL-38
+Coot Ilyushin IL-20
+AN-70 Antonov
+Orion Lockheed P-3C
+Orion Lockheed CP-140 Aurora
+Hercules Lockheed Martin C-130
+AC-130 Lockheed Spectre
+AC-130 Lockheed Spooky
+AC-130 Lockheed Ghostrider
+Hercules Lockheed Martin L100
+Bear Tupolev Tu-95
+Bear Tupolev Tu-142
+Super Tucano Embraer EMB-314
+PC-7 Pilatus
+PC-9 Pilatus
+PC-12 Pilatus
+PC-21 Pilatus
+U-28A Pilatus
+Arrow III Piper PA-28R
+TBM-700 Socata
+Texan II Beechcraft T-6C
+Prefect T1 Grob G 120TP
+Hurricane Hawker
+Spitfire Supermarine
+Tutor Grob G115E
+Grumman American AA-5 Traveler
+Grumman American AA-5A Cheetah
+Cherokee Piper PA-28 Warrior II
+Tomahawk Piper PA-38
+DR 400 Robin
+DR 500 Robin
+Firefly Slingsby
+C-150 Cessna
+C-152 Cessna
+C172 Cessna Skyhawk
+C175 Cessna Cutlass
+C177 Cessna Cardinal
+C210 Cessna Centurion
+Beaver De Havilland Canada
+PC-6 Pilatus Turbo Porter
+Supporter Saab MFI-17
+Be200 Beriev Altair
+Mail Beriev Be12
+Colt Antonov An-2
+CL-215 Canadair
+CL-415 Canadair
+Puma Aerospatiale SA-330
+Super Puma Airbus H215
+Super Puma Airbus SA-532 Cougar
+AW109 Agusta Westland
+Leonardo A109 Power
+Leonardo A109 Power Elite
+A129 Agusta Mangusta
+T129 Agusta Westland
+Gazelle Aerospatiale SA-341
+Gazelle Aerospatiale SA-342
+H155 Airbus Helicopters EC155
+Tiger Airbus Helicopters EC665
+Agusta Westland Bell
+Agusta Westland CH-149 Cormorant
+Agusta Westland EH-101
+Agusta Westland AW101 Merlin
+Airbus Helicopters AS-365 Dauphin
+Airbus Helicopters AS-565 Panther
+Airbus Helicopters EC-135
+Airbus Helicopters H135 Juno
+Kawasaki BK117
+Kiowa Bell 206 OH-58 Jet Ranger
+Airbus Helicopters EC-145
+Airbus Helicopters H-145 Jupiter
+Airbus Helicopters AS-355 Fennec
+Airbus Helicopters AS-350 Ecureuil Squirrel
+AW159 Leonardo Wildcat
+AW189 Leonardo AW149
+AW139 Leonardo
+NH-90 Leonardo
+Halo Mil Mil-26
+Havoc Mil Mil-28
+Haze Mil Mil-14
+Hind Mil Mil -24
+Hind Mil Mil-35
+Hip Mil Mil-8
+Hip Mil Mil-17
+Helix Kamov Ka-27
+Helix Kamov Ka-28
+Helix Kamov Ka-31
+Helix Kamov Ka-32
+Hokum Kamov Ka-50
+Hokum Kamov Ka-52
+NH-90 NH Industries SH-90
+NH-90 NH Industries Caiman
+NH-90 NH Industries Sea Lion
+MD-500E MD Helicopters
+MD 500 Little Bird Hughes
+MD 500 MH-6 Little Bird Hughes
+MD 500 OH-6 Cayuse Hughes
+MD-520N MD Helicopters
+MD-600N MD Helicopters
+Explorer MD Helicopters MD-900
+Explorer MD Helicopters MD-902
+Long Ranger Bell Bell 206L
+BO-105 Bolkow (MBB)
+AH-1 Bell Cobra
+AH-1 Bell Super Cobra
+AH-1Z Bell Viper
+UH-1N Bell Bell 212
+UH-1N Bell 204 Iroquois
+UH-1N Bell 205 Iroquois
+UH-1Y Bell Venom
+Bell 214 Bell
+Bell 222 Bell
+Bell 407 Bell
+Bell 412
+Bell CH416 Griffon
+Osprey Bell V-22
+Apache Boeing AH-64D Longbow (Guardian)
+Apache Boeing AH-64E Longbow (Guardian)
+Chinook Boeing CH-47
+Sikorsky S-92
+Sikorsky CH-148 Cyclone
+UH-60 Sikorsky Blackhawk
+SH-60 Sikorsky Seahawk
+MH-60 Sikorsky Jayhawk
+Sikorsky S-70
+S-61N Sikorsky SH-3 Sea King
+S-76 Sikorsky
+Sea Stallion Sikorsky S-65
+Sea Stallion Sikorsky CH-53
+Sea Stallion Sikorsky MH-53
+Sea Stallion Sikorsky Pave Low
+Super Stallion Sikorsky S-80
+Super Stallion Sikorsky SH-53
+Super Stallion Sikorsky CH-53E
+R-22 Robinson
+R-44 Robinson
+Schweizer 300 Schweizer (Hughes) Hughes 300

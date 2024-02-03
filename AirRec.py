@@ -100,7 +100,11 @@ def show_image(remaining_time,timer,instant_reveal,text_size,filename,image_path
     root.title("Aircraft Image")
     w, h = root.winfo_screenwidth(), root.winfo_screenheight()
     root.geometry(f"{w}x{h}")  
+    if intermission: root.configure(bg='black')
     
+    def close_window():
+        root.destroy()
+
     if not intermission:
         img = Image.open(image_path)
         resize_image = img.resize((w, h))
@@ -126,21 +130,16 @@ def show_image(remaining_time,timer,instant_reveal,text_size,filename,image_path
         else:
             aircraft_label.place_forget()
     
-    place_labels()
-    
     def update_timer():
         nonlocal remaining_time  # Use nonlocal to modify the outer variable
         remaining_time -= 1
         timer_label.config(text=str(remaining_time))
-        if remaining_time > 0: root.after(1000, update_timer)
-
-    update_timer()
+        root.after(1000, update_timer)
     
-    def close_window():
-        root.destroy()
-    
-    if intermission: root.configure(bg='black')
     root.after(remaining_time*1000, close_window)
+
+    place_labels()
+    update_timer()
 
     root.mainloop()
 
