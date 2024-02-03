@@ -1,2 +1,4 @@
 *.properties
 /paths.txt
+/AirRec.spec
+/build
