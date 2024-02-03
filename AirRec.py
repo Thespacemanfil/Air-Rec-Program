@@ -10,10 +10,11 @@ def menu():
     match input("Guide or slideshow?\n").lower():
         case "slideshow":
             match input("competition, casual, learn or custom mode?\n").lower():
-                case "competition": slideshow_length = 30; slideshow_time = 10; instant_reveal = False; intermission_time = 0; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " airplane"; timer = True; slideshow(slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer)
-                case "casual": slideshow_length = 20; slideshow_time = 10; instant_reveal = False; intermission_time = 5; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True; slideshow(slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer)
-                case "learn": slideshow_length = 10; slideshow_time = 999; instant_reveal = True; intermission_time = 0; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = False; slideshow(slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer)
+                case "competition": path = "C:/aircraft_recognition_program/images/"; slideshow_length = 30; slideshow_time = 10; instant_reveal = False; intermission_time = 0; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " airplane"; timer = True; slideshow(path,slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer)
+                case "casual": path = "C:/aircraft_recognition_program/images/"; slideshow_length = 20; slideshow_time = 10; instant_reveal = False; intermission_time = 5; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True; slideshow(path,slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer)
+                case "learn": path = "C:/aircraft_recognition_program/images/"; slideshow_length = 10; slideshow_time = 999; instant_reveal = True; intermission_time = 0; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = False; slideshow(path,slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer)
                 case _:
+                    path = "C:/aircraft_recognition_program/images/";
                     slideshow_length = int(input("Amount of slides? -1 slides will run through all aircraft in the list\n"))
                     slideshow_time = int(input("Seconds per slide?\n"))
                     if input("Reveal answers immediately yes/no\n").lower() == "yes": instant_reveal = True
@@ -26,15 +27,14 @@ def menu():
                     if input("Visible countdown timer yes/no\n").lower() == "yes": timer = True
                     else: timer = False
                     slideshow(slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer)
-        case "test": slideshow_length = 5; slideshow_time = 3; instant_reveal = True; intermission_time = 1; variance = 2; txt_file = "Competition.txt"; text_size = 50; extension = " aircraft"; timer = True; slideshow(slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer)
-        case "Guide":
-            print("https://aviationgeeks.co.uk/air-rec/air-cadet-list/")
+        case "test": path = "C:/aircraft_recognition_program/images/"; slideshow_length = 3; slideshow_time = 3; instant_reveal = True; intermission_time = 2; variance = 2; txt_file = "basic.txt"; text_size = 50; extension = " aircraft"; timer = True; slideshow(path,slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer)
+        case "Guide": print("https://aviationgeeks.co.uk/air-rec/air-cadet-list/")
         case _: menu()
 
-def slideshow(slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer):
+def slideshow(path,slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer):
     selected_aircraft = aircraft_selector(txt_file,slideshow_length)
-    image_downloader(selected_aircraft,extension,variance)
-    run_slideshow(slideshow_time,text_size,timer,instant_reveal,selected_aircraft,intermission_time,extension)
+    image_downloader(selected_aircraft,extension,path,variance)
+    run_slideshow(slideshow_time,path,text_size,timer,instant_reveal,selected_aircraft,intermission_time,extension)
     show_list_of_aircraft(selected_aircraft,text_size)
     menu()
 
@@ -49,10 +49,10 @@ def aircraft_selector(txt_file,slideshow_length):
         return aircraft_list
     else: print("INVALID SLIDESHOW LENGTH")
 
-def image_downloader(selected_aircraft,extension,variance):
+def image_downloader(selected_aircraft,extension,path,variance):
     for aircraft in selected_aircraft:
         query = aircraft + extension
-        downloader.download(query, limit=variance, output_dir='C:/aircraft_recognition_program/images/', adult_filter_off=False, force_replace=False, timeout=60, filter="photo", verbose=False)
+        downloader.download(query, limit=variance, output_dir=path, adult_filter_off=False, force_replace=False, timeout=60, filter="photo", verbose=False)
         
 def show_image(remaining_time,timer,instant_reveal,text_size,filename,image_path,slideshow_time,intermission,intermission_time):
     root = tk.Tk()
@@ -68,19 +68,18 @@ def show_image(remaining_time,timer,instant_reveal,text_size,filename,image_path
         label.pack(fill=tk.BOTH, expand=tk.YES)
         
     def place_timer_label():
-        if timer and not intermission:
-            window_width = root.winfo_width()
-            timer_label.place(x=window_width - timer_label.winfo_width() - 30, y=20)
-        elif timer and intermission:
-            timer_label.place(x=w - timer_label.winfo_width() - 30, y=20)
+        root.update()  # Update the window to get the correct dimensions
+        if timer:
+            timer_label.place(x=root.winfo_width()-100, y=20)
         elif hasattr(timer_label, 'place'):
             timer_label.place_forget()
     
     def place_aircraft_name():
-        if instant_reveal and intermission and intermission_time > 0:
-            aircraft_label.place(x=w/2, y=h/2, anchor="center")
-        elif instant_reveal and not intermission and intermission_time == 0:
-            aircraft_label.place(x=w/2, y=35, anchor="center")
+        if instant_reveal:
+            if intermission and intermission_time > 0:
+                aircraft_label.place(x=w/2, y=h/2, anchor="center")
+            elif not intermission and intermission_time == 0:
+                aircraft_label.place(x=w/2, y=35, anchor="center")
         elif hasattr(aircraft_label, 'place'):
             aircraft_label.place_forget()
     
@@ -110,10 +109,10 @@ def show_image(remaining_time,timer,instant_reveal,text_size,filename,image_path
 
     root.mainloop()
 
-def run_slideshow(slideshow_time, text_size, timer, instant_reveal, selected_aircraft, intermission_time, extension):
+def run_slideshow(slideshow_time, path, text_size, timer, instant_reveal, selected_aircraft, intermission_time, extension):
     for aircraft in selected_aircraft:
         remaining_time = slideshow_time
-        folder_path = os.path.join('C:/aircraft_recognition_program/images/' + aircraft + extension) # get the folder path for each aircraft
+        folder_path = os.path.join(path + aircraft + extension) # get the folder path for each aircraft
         images = [f for f in os.listdir(folder_path) if f.endswith(".png") or f.endswith(".jpg") or f.endswith(".jpeg")] # list the image files in the folder
         if not images: print(f"Image not found: {aircraft}"); break
         random_image = random.choice(images) # pick a random image
