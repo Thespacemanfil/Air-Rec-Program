@@ -78,7 +78,6 @@ def slideshow(path,slideshow_length,slideshow_time,instant_reveal,intermission_t
 def aircraft_selector(txt_file,slideshow_length):
     with open(txt_file, 'r') as file:
         aircraft_list = file.read().splitlines()
-
     if slideshow_length <= len(aircraft_list) and slideshow_length > 0:
         selected_aircraft = random.sample(aircraft_list, slideshow_length)
         return selected_aircraft
@@ -86,10 +85,15 @@ def aircraft_selector(txt_file,slideshow_length):
         return aircraft_list
     else: print("INVALID SLIDESHOW LENGTH")
 
-def image_downloader(selected_aircraft,extension,path,variance):
+def image_downloader(selected_aircraft, extension, path, variance):
     for aircraft in selected_aircraft:
         query = aircraft + extension
-        downloader.download(query, limit=variance, output_dir=path, adult_filter_off=False, force_replace=False, timeout=60, filter="photo", verbose=False)
+        output_path = os.path.join(path, query)
+        for _ in range(3):  # Try to download the image up to 3 times
+            num_files_before = len(os.listdir(output_path)) if os.path.exists(output_path) else 0
+            downloader.download(query, limit=variance, output_dir=path, adult_filter_off=False, force_replace=False, timeout=60, filter="photo", verbose=False)
+            if num_files_before < len(os.listdir(output_path)): break
+        else: print(f"Failed to download image for {query} after 3 attempts.")
         
 def show_image(remaining_time,timer,instant_reveal,text_size,filename,image_path,intermission,intermission_time):
     root = tk.Tk()
@@ -128,16 +132,14 @@ def show_image(remaining_time,timer,instant_reveal,text_size,filename,image_path
         nonlocal remaining_time  # Use nonlocal to modify the outer variable
         remaining_time -= 1
         timer_label.config(text=str(remaining_time))
-        if remaining_time > 0:
-            root.after(1000, update_timer)
+        if remaining_time > 0: root.after(1000, update_timer)
 
     update_timer()
     
     def close_window():
         root.destroy()
     
-    if intermission:
-        root.configure(bg='black')
+    if intermission: root.configure(bg='black')
     root.after(remaining_time*1000, close_window)
 
     root.mainloop()
@@ -165,21 +167,15 @@ def open_image(photo_references, image_path, aircraft_name):
         root.title(f"{aircraft_name} - Image Viewer")
 
         image = Image.open(image_path)
-
         new_width = int(root.winfo_screenwidth() * 0.75)
         new_height = int(root.winfo_screenheight() * 0.75)
         image = image.resize((new_width, new_height), Image.LANCZOS)
-
         photo = ImageTk.PhotoImage(image)
-
-        # Display the image
-        label = tk.Label(root, image=photo)
+        label = tk.Label(root, image=photo) # Display the image
         label.image = photo  # Keep a reference to the image to prevent garbage collection
         label.pack()
-        # Store photo reference globally
-        photo_references.append(photo)
-        # Display the aircraft name
-        aircraft_label = tk.Label(root, text=aircraft_name, font=('Arial', 30))
+        photo_references.append(photo) # Store photo reference globally
+        aircraft_label = tk.Label(root, text=aircraft_name, font=('Arial', 30)) # Display the aircraft name
         aircraft_label.pack()
 
         root.mainloop()
