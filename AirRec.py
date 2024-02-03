@@ -54,7 +54,7 @@ def image_downloader(selected_aircraft,extension,path,variance):
         query = aircraft + extension
         downloader.download(query, limit=variance, output_dir=path, adult_filter_off=False, force_replace=False, timeout=60, filter="photo", verbose=False)
         
-def show_image(remaining_time,timer,instant_reveal,text_size,filename,image_path,slideshow_time,intermission,intermission_time):
+def show_image(remaining_time,timer,instant_reveal,text_size,filename,image_path,intermission):
     root = tk.Tk()
     root.title("Aircraft Image")
     w, h = root.winfo_screenwidth(), root.winfo_screenheight()
@@ -67,27 +67,25 @@ def show_image(remaining_time,timer,instant_reveal,text_size,filename,image_path
         label = ttk.Label(root, image=photo)
         label.pack(fill=tk.BOTH, expand=tk.YES)
         
-    def place_timer_label():
+    timer_label = ttk.Label(root, text=str(remaining_time), font=('Arial', text_size), foreground='orange')
+    aircraft_label = ttk.Label(root, text=filename, font=('Arial', text_size), foreground='white', background='black')
+    
+    def place_labels():
         root.update()  # Update the window to get the correct dimensions
         if timer:
             timer_label.place(x=root.winfo_width()-100, y=20)
-        elif hasattr(timer_label, 'place'):
+        else:
             timer_label.place_forget()
-    
-    def place_aircraft_name():
+            
         if instant_reveal:
-            if intermission and intermission_time > 0:
+            if intermission:
                 aircraft_label.place(x=w/2, y=h/2, anchor="center")
-            elif not intermission and intermission_time == 0:
+            else:
                 aircraft_label.place(x=w/2, y=35, anchor="center")
-        elif hasattr(aircraft_label, 'place'):
+        else:
             aircraft_label.place_forget()
     
-    timer_label = ttk.Label(root, text=str(remaining_time), font=('Arial', text_size), foreground='orange')
-    place_timer_label()
-    
-    aircraft_label = ttk.Label(root, text=filename, font=('Arial', text_size), foreground='white', background='black')
-    place_aircraft_name()
+    place_labels()
     
     def update_timer():
         nonlocal remaining_time  # Use nonlocal to modify the outer variable
@@ -103,9 +101,7 @@ def show_image(remaining_time,timer,instant_reveal,text_size,filename,image_path
     
     if intermission:
         root.configure(bg='black')
-        root.after(remaining_time*1000, close_window)
-    else:
-        root.after(slideshow_time*1000, close_window)
+    root.after(remaining_time*1000, close_window)
 
     root.mainloop()
 
@@ -120,9 +116,9 @@ def run_slideshow(slideshow_time, path, text_size, timer, instant_reveal, select
         with open("paths.txt", "a") as f:
             f.write(image_path + "\n")
         
-        show_image(remaining_time, timer, instant_reveal, text_size, aircraft, image_path, slideshow_time, False, intermission_time)
+        show_image(remaining_time, timer, instant_reveal, text_size, aircraft, image_path, False)
         
-        if intermission_time > 0: show_image(intermission_time, timer, instant_reveal, text_size, aircraft, image_path, slideshow_time, True, intermission_time)
+        if intermission_time > 0: show_image(intermission_time, timer, instant_reveal, text_size, aircraft, image_path, True)
 
 def open_image(photo_references, image_path, aircraft_name):
     root = tk.Toplevel()  # Use Toplevel instead of Tk
