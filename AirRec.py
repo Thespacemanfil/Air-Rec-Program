@@ -54,16 +54,20 @@ def slideshowmenu(settings):
                 "timer": False,
                 "extension": " aircraft",
             })
-        case "custom":
+        case _:
+            if input("Reveal answers immediately yes/no\n").lower() == "yes": instant_reveal = True
+            else: instant_reveal = False
+            if input("Visible countdown timer yes/no\n").lower() == "yes": timer = True
+            else: instant_reveal = False
             settings.update({
                 "slideshow_length": int(input("Amount of slides? -1 slides will run through all aircraft in the list\n")),
                 "slideshow_time": int(input("Seconds per slide?\n")),
-                "instant_reveal": input("Reveal answers immediately yes/no\n").lower() == "yes",
+                "instant_reveal": instant_reveal,
                 "intermission_time": int(input("Seconds of intermission?\n")),
                 "variance": 3,
                 "txt_file": input("Which list of aircraft do you want to draw from? " + str(glob.glob("*.txt")) + "\n"),
                 "extension": " " + input("Search modifier? (not necessary) e.g real aircraft, top view\n").rstrip(),
-                "timer": input("Visible countdown timer yes/no\n").lower() == "yes",
+                "timer": timer,
             })
 
     slideshow(**settings)
