@@ -20,21 +20,7 @@ def menu():
 
     with open('paths.txt', 'w'): pass
     print("---Aircraft Recognition Program---")
-
-    match input("Guide or slideshow?\n").lower():
-        case "Guide":
-            print("https://aviationgeeks.co.uk/air-rec/air-cadet-list/")
-        case "test":
-            settings.update({
-            "slideshow_length": 3,
-            "slideshow_time": 3,
-            "instant_reveal": True,
-            "intermission_time": 2,
-            })
-            slideshow(**settings)
-        case "slideshow":
-            slideshowmenu(settings)
-        case _: menu()
+    slideshowmenu(settings)
     
 def slideshowmenu(settings):
     match input("competition, casual, learn or custom mode?\n").lower():
@@ -53,6 +39,13 @@ def slideshowmenu(settings):
                 "instant_reveal": True,
                 "timer": False,
                 "extension": " aircraft",
+            })
+        case "test":
+            settings.update({
+            "slideshow_length": 3,
+            "slideshow_time": 3,
+            "instant_reveal": True,
+            "intermission_time": 2,
             })
         case _:
             if input("Reveal answers immediately yes/no\n").lower() == "yes": instant_reveal = True
