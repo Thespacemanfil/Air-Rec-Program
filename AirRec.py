@@ -69,7 +69,7 @@ def slideshowmenu(settings):
 def slideshow(path,slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer):
     selected_aircraft = aircraft_selector(txt_file,slideshow_length)
     image_downloader(selected_aircraft,extension,path,variance)
-    print("-------------------------------------------------------------------------------------------------------------")
+    print("\n\n\n-------------------------------------------------------------------------------------------------------------")
     input("Press enter to continue: ")
     run_slideshow(slideshow_time,path,text_size,timer,instant_reveal,selected_aircraft,intermission_time,extension)
     show_list_of_aircraft(selected_aircraft,text_size)
