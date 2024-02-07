@@ -89,11 +89,11 @@ def image_downloader(selected_aircraft, extension, path, variance):
     for aircraft in selected_aircraft:
         query = aircraft + extension
         output_path = os.path.join(path, query)
-        for _ in range(3):  # Try to download the image up to 3 times
+        for _ in range(2):  # Try to download the image
             num_files_before = len(os.listdir(output_path)) if os.path.exists(output_path) else 0
             downloader.download(query, limit=variance, output_dir=path, adult_filter_off=False, force_replace=False, timeout=60, filter="photo", verbose=False)
             if num_files_before < len(os.listdir(output_path)): break
-        else: print(f"Failed to download image for {query} after 3 attempts.")
+        else: print(f"Failed to download image for {query} after 2 attempts.")
         
 def show_image(remaining_time,timer,instant_reveal,text_size,filename,image_path,intermission,intermission_time,slide_num):
     root = tk.Tk()

@@ -48,6 +48,7 @@ Antonov AN-148
 Antonov An-2 Colt
 Antonov An-24 Coke 
 Antonov An-26 Curl 
+Antonov An-28 Cash
 Antonov An-30 Clank 
 Antonov An-32 Cline 
 Antonov AN-70
@@ -59,28 +60,19 @@ Aviocar Casa C-212
 Avions de Transport Regional ATR-42
 Avions de Transport Regional ATR-72
 Avro Lancaster
-AW139 Leonardo
-AW159 Leonardo Wildcat
-AW189 Leonardo AW149
-Aztec Piper PA-23
 BAe 125 Dominie
-BAe 125 Hawker 1000
 BAe Hawk 100
 BAe Hawk 200
 BAe Hawk T2
 BAe T45 Goshawk
-BAe146 RJ-100
-BAe146 RJ-85
-Bandeirante Embraer C-95
-Bandeirante Embraer EMB-110
 Beech 1900C
 Beech 1900D
-Beech 99 Beechcraft
 Beech Hawker 400
 Beech Raytheon 350 Avenger
 Beech Raytheon 350ER Shadow
 Beech Raytheon C-12X
 Beechcraft C-12 Huron
+Beechcraft Model 99
 Beechcraft RC-12 Guardrail
 Beechcraft Super King Air 200
 Beechcraft T-6 Texan II
@@ -127,6 +119,7 @@ Boeing C-32
 Boeing C-40
 Boeing CH-47 Chinook
 Boeing E-3 Sentry
+Boeing E-6 Mercury
 Boeing E-7 Wedgetail
 Boeing E-767
 Boeing E-8 Joint Stars
@@ -145,7 +138,6 @@ Boeing KC-46 Pegasus
 Boeing KC-767
 Boeing MD-80
 Boeing MD-90
-Boeing Mercury E6 Hermes
 Boeing P-8 Poseidon 
 Boeing RC-135W Rivet Joint
 Bombardier Challenger 300
@@ -170,6 +162,8 @@ Bombardier Global Express XRS7500
 Brasilia Embraer C-97
 Brasilia Embraer EMB-120
 Bréguet 1150 Atlantic
+British Aerospace 125
+British Aerospace 146
 British Aerospace Jetstream 31
 British Aerospace Jetstream 41
 Britten Norman Trislander
@@ -178,13 +172,7 @@ Britten-Norman Islander
 Canadair CL-215
 Canadair CL-415
 CASA-IPTN CN-235
-Cash PZL (Antonov) An-28
-Cash PZL (Antonov) C-145 Skytruck
-Cash PZL (Antonov) M-28 Bryza
 Cessna 404 Titan
-Cessna 500 Citation I
-Cessna 650
-Cessna 750 Citation X
 Cessna C-150
 Cessna C-152
 Cessna C-28 Titan
@@ -192,9 +180,11 @@ Cessna C172 Skyhawk
 Cessna C175 Cutlass
 Cessna C177 Cardinal
 Cessna C210 Centurion
+Cessna Citation I
 Cessna Citation III
 Cessna Citation VI
 Cessna Citation VII
+Cessna Citation X
 Dakota Douglas C117
 Dakota Douglas C47 Skytrain
 Dakota Douglas C53 skytrooper
@@ -217,11 +207,13 @@ Dornier 328
 Dornier C-146A Wolfhound
 EADS HC-144 Ocean Sentry
 Embraer C-390
+Embraer C-95
 Embraer E-99
 Embraer E170
 Embraer E175
 Embraer E190
 Embraer E195
+Embraer EMB 110 Bandeirante
 Embraer EMB 121 Xingu
 Embraer EMB 314 Super Tucano
 Embraer EMB-145
@@ -242,21 +234,19 @@ Grob Tutor G115E
 Grumman American AA-5 Traveler
 Grumman American AA-5A Cheetah
 Grumman C-2 Greyhound
-Gulfstream II Gulfstream Aerospace G-1159
-Gulfstream III Gulfstream Aerospace C20A
-Gulfstream IV Gulfstream Aerospace C-37A
-Gulfstream V Gulfstream Aerospace C-37A
+Gulfstream C-37A
+Gulfstream C20A
+Gulfstream II
+Gulfstream III
+Gulfstream IV
+Gulfstream V
 Hawker Hurricane
 Helix Kamov Ka-27
 Helix Kamov Ka-28
 Helix Kamov Ka-31
 Helix Kamov Ka-32
-Hind Mil Mil -24
-Hind Mil Mil-35
-Hip Mil Mil-17
-Hip Mil Mil-8
-Hokum Kamov Ka-50
-Hokum Kamov Ka-52
+Hokum Kamov Ka-50 Black Shark
+Hokum Kamov Ka-52 Alligator
 Hughes OH-6 Cayuse
 Ilyushin IL-20 Coot
 Ilyushin IL-38 May
@@ -278,6 +268,10 @@ Learjet 55
 Learjet 60
 Learjet C-21A
 Learjet U-36A
+Leonardo AW139
+Leonardo AW149
+Leonardo AW159 Wildcat
+Leonardo AW189
 Let L-410 Turbolet
 Lockheed AC-130 Ghostrider
 Lockheed AC-130 Spectre
@@ -312,8 +306,12 @@ Mikoyan-Guryevich MiG-29 Fulcrum
 Mikoyan-Guryevich MiG-31 Foxhound
 Mikoyan-Guryevich MiG-35 Fulcrum
 Mil Mil-14 Haze
+Mil Mil-17 Hip
+Mil Mil-24 Hind
 Mil Mil-26 Halo
 Mil Mil-28 Havo 
+Mil Mil-35 Hind
+Mil Mil-8 Hip
 NH-90 Leonardo
 NH-90 NH Industries Caiman
 NH-90 NH Industries Sea Lion
@@ -329,11 +327,15 @@ Pilatus PC-6 Turbo Porter
 Pilatus PC-7
 Pilatus PC-9
 Pilatus U-28A
+Piper PA-23 Aztec
 Piper PA-28 Cherokee
 Piper PA-28R Arrow III 
 Piper PA-31 Navajo
 Piper PA-38 Tomahawk
 Piper PA-42 Cheyenne III
+PZL C-145
+PZL M28 Skytruck
+Raytheon Hawker 1000
 Raytheon Sentinel R1
 Raytheon T-1 Jayhawk
 Robin DR400
@@ -341,8 +343,8 @@ Robin DR500
 Robinson R-22
 Robinson R-44
 Rockwell B-1B Lancer
-Saab 105 Saab SK-60
-Saab 2000 Saab
+Saab 105 SK-60
+Saab 2000
 Saab 340 Saab S100D
 Saab 340 Saab TP100
 Saab JAS-39 Gripen 
@@ -376,7 +378,7 @@ Sukhoi Su-22 Fitter
 Sukhoi Su-24 Fencer
 Sukhoi Su-25 Frogfoot
 Sukhoi Su-27 Flanker
-Sukhoi Su-30 Flanker-C/G/H
+Sukhoi Su-30 Flanker-C-G-H
 Sukhoi Su-33 Flanker-D
 Sukhoi Su-34 Fullback
 Sukhoi Su-35 Flanker-E
