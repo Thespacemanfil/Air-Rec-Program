@@ -69,7 +69,7 @@ def slideshowmenu(settings):
 def slideshow(path,slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer):
     selected_aircraft = aircraft_selector(txt_file,slideshow_length)
     image_downloader(selected_aircraft,extension,path,variance)
-    print("\n\n\n-------------------------------------------------------------------------------------------------------------")
+    print("\n\n\n-------------------------------------------------------------------------------------------")
     input("Press enter to continue: ")
     run_slideshow(slideshow_time,path,text_size,timer,instant_reveal,selected_aircraft,intermission_time,extension)
     show_list_of_aircraft(selected_aircraft,text_size)
@@ -91,7 +91,7 @@ def image_downloader(selected_aircraft, extension, path, variance):
         output_path = os.path.join(path, query)
         for _ in range(2):  # Try to download the image
             num_files_before = len(os.listdir(output_path)) if os.path.exists(output_path) else 0
-            downloader.download(query, limit=variance, output_dir=path, adult_filter_off=False, force_replace=False, timeout=60, filter="photo", verbose=False)
+            downloader.download(query, limit=variance, output_dir=path, adult_filter_off=False, force_replace=False, timeout=10, filter="photo", verbose=False)
             if num_files_before < len(os.listdir(output_path)): break
         else: print(f"Failed to download image for {query} after 2 attempts.")
         
