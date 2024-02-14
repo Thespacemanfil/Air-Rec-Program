@@ -60,7 +60,7 @@ def slideshowmenu(settings):
                 "intermission_time": int(input("Seconds of intermission?\n")),
                 "variance": 3,
                 "txt_file": input("Which list of aircraft do you want to draw from? " + str(glob.glob("*.txt")) + "\n"),
-                "extension": " " + input("Search modifier? (not necessary) e.g real aircraft, top view\n").rstrip(),
+                "extension": (" " + input("Search modifier? (not necessary) e.g real aircraft, top view\n")).rstrip(),
                 "timer": timer,
             })
 
