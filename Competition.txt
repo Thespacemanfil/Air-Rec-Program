@@ -24,6 +24,7 @@ Airbus A380
 Airbus A400M Atlas
 Airbus CC-150 Polaris
 Airbus CN-295
+Airbus HC-144 Ocean Sentry
 Airbus Helicopters AS-350 Ecureuil Squirrel
 Airbus Helicopters AS-355 Fennec
 Airbus Helicopters AS-365 Dauphin
@@ -159,8 +160,6 @@ Bombardier Global Express XRS5500
 Bombardier Global Express XRS6000
 Bombardier Global Express XRS6500
 Bombardier Global Express XRS7500
-Brasilia Embraer C-97
-Brasilia Embraer EMB-120
 Bréguet 1150 Atlantic
 British Aerospace 125
 British Aerospace 146
@@ -185,10 +184,6 @@ Cessna Citation III
 Cessna Citation VI
 Cessna Citation VII
 Cessna Citation X
-Dakota Douglas C117
-Dakota Douglas C47 Skytrain
-Dakota Douglas C53 skytrooper
-Dakota Douglas DC3
 Dassault Falcon 10
 Dassault Falcon 20
 Dassault Falcon 200
@@ -205,9 +200,13 @@ Diamond DA42 Twin Star
 Dornier 228
 Dornier 328
 Dornier C-146A Wolfhound
-EADS HC-144 Ocean Sentry
+Douglas C117 Skytrain
+Douglas C47 Skytrain
+Douglas C53 skytrooper
+Douglas DC3
 Embraer C-390
 Embraer C-95
+Embraer C-97 Brasilia
 Embraer E-99
 Embraer E170
 Embraer E175
@@ -216,11 +215,11 @@ Embraer E195
 Embraer EMB 110 Bandeirante
 Embraer EMB 121 Xingu
 Embraer EMB 314 Super Tucano
+Embraer EMB-120 Brasilia
 Embraer EMB-145
 Embraer EMB-500 Phenom 100
 Embraer Legacy 600
 Embraer Legacy 650
-Eurocopter AS365 Dauphin II
 Eurofighter Typhoon EF2000
 Fairchild Aerospace Merlin
 Fairchild Republic A-10A Thunderbolt II 
@@ -241,12 +240,6 @@ Gulfstream III
 Gulfstream IV
 Gulfstream V
 Hawker Hurricane
-Helix Kamov Ka-27
-Helix Kamov Ka-28
-Helix Kamov Ka-31
-Helix Kamov Ka-32
-Hokum Kamov Ka-50 Black Shark
-Hokum Kamov Ka-52 Alligator
 Hughes OH-6 Cayuse
 Ilyushin IL-20 Coot
 Ilyushin IL-38 May
@@ -257,6 +250,12 @@ Ilyushin IL-80 Maxdome
 Ilyushin IL-86 Camber
 Ilyushin IL-86VKP Maxdome 
 Ilyushin IL-96
+Kamov Ka-27 Helix
+Kamov Ka-28 Helix
+Kamov Ka-31 Helix
+Kamov Ka-32 Helix
+Kamov Ka-50 Black Shark
+Kamov Ka-52 Alligator
 Kawasaki BK117
 King Air 100 Beech Raytheon
 King Air 90 Beech Raytheon
