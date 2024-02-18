@@ -260,13 +260,13 @@ Kawasaki BK117
 King Air 100 Beech Raytheon
 King Air 90 Beech Raytheon
 Kiowa Bell 206 OH-58 Jet Ranger
-Learjet 35 
-Learjet 36 
-Learjet 45
-Learjet 55
-Learjet 60
-Learjet C-21A
-Learjet U-36A
+Bombardier Learjet 35 
+Bombardier Learjet 36 
+Bombardier Learjet 45
+Bombardier Learjet 55
+Bombardier Learjet 60
+Bombardier Learjet C-21A
+Bombardier Learjet U-36A
 Leonardo AW139
 Leonardo AW149
 Leonardo AW159 Wildcat
@@ -315,7 +315,7 @@ NH-90 Leonardo
 NH-90 NH Industries Caiman
 NH-90 NH Industries Sea Lion
 NH-90 NH Industries SH-90
-Northrop B-2A Spirit
+Northrop Grumman B-2A Spirit
 Northrop F-5 Tiger II Freedom Fighter
 Northrop Grumman E-2C Hawkeye
 Panavia Tornado ECR
