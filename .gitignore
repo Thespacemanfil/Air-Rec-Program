@@ -1,5 +1,5 @@
 *.properties
-/dist
 /paths.txt
 /AirRec.spec
-/build
+build
+dist
