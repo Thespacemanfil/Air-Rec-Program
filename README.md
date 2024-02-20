@@ -17,4 +17,5 @@ tkinter
 
 ## Creating an executable
 pyinstaller --onefile --console AirRec.py\
-python -m nuitka --follow-imports AirRec.py
+python -m nuitka --follow-imports AirRec.py\
+python -m nuitka --follow-imports --deployment --enable-plugin=tk-inter AirRec.py
