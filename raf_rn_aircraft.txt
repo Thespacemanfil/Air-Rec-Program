@@ -21,3 +21,8 @@ RAF SUPERMARINE SPITFIRE
 RAF TEXAN T1
 RAF Typhoon FGR4
 RAF VOYAGER
+RN Avenger T1
+RN Commando Merlin HC4/4A
+RN Commando Wildcat AH1
+RN Merlin HM2
+RN Wildcat HMA2
