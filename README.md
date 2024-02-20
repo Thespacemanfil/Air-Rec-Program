@@ -1,17 +1,17 @@
 ﻿# AirRec
-AirRec is a program to aid in developing aircraft recognition skills.  
-It takes aircraft from a txt list, and creates customizable slideshows using images it downloads.  
+AirRec is a program to aid in developing aircraft recognition skills.\
+It takes aircraft from a txt list, and creates customizable slideshows using images it downloads.\
 Supports custom txt lists in the custom mode.
 
 # Dependencies
-random
-os
-glob
-Pillow (PIL)
-bing_image_downloader
+random\
+os\
+glob\
+Pillow (PIL)\
+bing_image_downloader\
 tkinter
 
 ## Creating an executable
-pyinstaller --onefile --console AirRec.py
+pyinstaller --onefile --console AirRec.py\
 python -m nuitka --follow-imports AirRec.py
 
