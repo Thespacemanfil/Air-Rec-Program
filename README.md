@@ -5,6 +5,7 @@ Supports custom txt lists in the custom mode.
 
 # Versions
 https://github.com/Thespacemanfil/Air-Rec-Program/releases/tag/v1.1
+https://github.com/Thespacemanfil/Air-Rec-Program/releases/tag/stable
 
 # Dependencies
 random\
@@ -17,4 +18,3 @@ tkinter
 ## Creating an executable
 pyinstaller --onefile --console AirRec.py\
 python -m nuitka --follow-imports AirRec.py
-
