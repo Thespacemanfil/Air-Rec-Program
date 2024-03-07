@@ -1,4 +1,4 @@
-import glob, os, random
+import glob, os, random, time
 from PIL import Image, ImageTk
 import tkinter as tk
 from tkinter import ttk
@@ -12,13 +12,12 @@ def menu():
         "instant_reveal": False,
         "intermission_time": 0,
         "variance": 2,
-        "txt_file": "default.txt",
+        "txt_file": get_txt("default.txt"),
         "text_size": 50,
         "extension": " airplane",
         "timer": True,
     }
 
-    with open('paths.txt', 'w'): pass
     print("---Aircraft Recognition Program---")
     slideshowmenu(settings)
 
@@ -38,7 +37,7 @@ def slideshowmenu(settings):
                 "slideshow_time": 9999,
                 "instant_reveal": True,
                 "timer": False,
-                "txt_file": input("Which list of aircraft do you want to draw from? " + str(glob.glob("*.txt")) + "\n"),
+                "txt_file": get_txt(),
                 "extension": " aircraft",
             })
         case "test":
@@ -54,7 +53,7 @@ def slideshowmenu(settings):
             if input("Visible countdown timer y/n\n").lower() == "y": timer = True
             else: timer = False
             settings.update({
-                "txt_file": input("TXT list choice: " + str(glob.glob("*.txt")) + "\n"),
+                "txt_file": get_txt(),
                 "slideshow_length": int(input("Slide count (-1 will use entire list):\n")),
                 "slideshow_time": int(input("Slide length (seconds):\n")),
                 "instant_reveal": instant_reveal,
@@ -65,7 +64,23 @@ def slideshowmenu(settings):
 
     slideshow(**settings)
 
+def get_txt(file):
+    if os.path.exists(file): return file
+    elif not file: get_txt(input("TXT list choice:" + str(glob.glob("*.txt")) + "\n"))
+    elif glob.glob("*.txt") == []: crash("No txt lists found.")
+    else:
+        print("Failed to find",file)
+        while os.path.exists(file) == False:
+            file = input("Choose a TXT list: " + str(glob.glob("*.txt")) + "\n")
+        return file
+    
+def crash(reason):
+    print("Program shutting down. Reason:",reason)
+    time.sleep(5)
+    os._exit(0)
+
 def slideshow(path,slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer):
+    with open('paths.txt', 'w'): pass
     selected_aircraft = aircraft_selector(txt_file,slideshow_length)
     image_downloader(selected_aircraft,extension,path,variance)
     print("\n\n\n---------------------------------------------------------------------------------")
