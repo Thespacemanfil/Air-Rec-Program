@@ -21,7 +21,7 @@ def menu():
     with open('paths.txt', 'w'): pass
     print("---Aircraft Recognition Program---")
     slideshowmenu(settings)
-    
+
 def slideshowmenu(settings):
     match input("competition, casual, learn or custom mode?\n").lower():
         case "competition":
@@ -49,17 +49,17 @@ def slideshowmenu(settings):
             "intermission_time": 2,
             })
         case _:
-            if input("Reveal answers immediately yes/no\n").lower() == "yes": instant_reveal = True
+            if input("Reveal answers immediately y/n\n").lower() == "y": instant_reveal = True
             else: instant_reveal = False
-            if input("Visible countdown timer yes/no\n").lower() == "yes": timer = True
+            if input("Visible countdown timer y/n\n").lower() == "y": timer = True
             else: timer = False
             settings.update({
-                "slideshow_length": int(input("Amount of slides? -1 slides will run through all aircraft in the list\n")),
-                "slideshow_time": int(input("Seconds per slide?\n")),
+                "txt_file": input("TXT list choice: " + str(glob.glob("*.txt")) + "\n"),
+                "slideshow_length": int(input("Slide count (-1 will use entire list):\n")),
+                "slideshow_time": int(input("Slide length (seconds):\n")),
                 "instant_reveal": instant_reveal,
-                "intermission_time": int(input("Seconds of intermission?\n")),
-                "txt_file": input("Which list of aircraft do you want to draw from? " + str(glob.glob("*.txt")) + "\n"),
-                "extension": (" " + input("Search modifier? (not necessary) e.g real aircraft, top view\n")).rstrip(),
+                "intermission_time": int(input("intermission length (seconds):\n")),
+                "extension": (" " + input("Search modifier: e.g top view, in flight, [or leave blank]\n")).rstrip(),
                 "timer": timer,
             })
 
@@ -173,8 +173,8 @@ def open_image(photo_references, image_path, aircraft_name):
         root.title(f"{aircraft_name} - Image Viewer")
 
         image = Image.open(image_path)
-        new_width = int(root.winfo_screenwidth() * 0.75)
-        new_height = int(root.winfo_screenheight() * 0.75)
+        new_width = int(root.winfo_screenwidth() * 0.70)
+        new_height = int(root.winfo_screenheight() * 0.70)
         image = image.resize((new_width, new_height), Image.LANCZOS)
         photo = ImageTk.PhotoImage(image)
         label = tk.Label(root, image=photo) # Display the image
