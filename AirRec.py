@@ -107,7 +107,9 @@ def image_downloader(selected_aircraft, extension, path, variance):
             num_files_before = len(os.listdir(output_path)) if os.path.exists(output_path) else 0
             downloader.download(query, limit=variance, output_dir=path, adult_filter_off=False, force_replace=False, timeout=10, filter="photo", verbose=False)
             if num_files_before < len(os.listdir(output_path)): break
-        else: print(f"Failed to download image for {query} after 2 attempts.")
+        else:
+            print(f"Failed to download image for {query} after 2 attempts.")
+            selected_aircraft.remove(aircraft)
         
 def show_image(remaining_time,timer,instant_reveal,text_size,filename,image_path,intermission,intermission_time,slide_num):
     root = tk.Tk()
@@ -155,7 +157,7 @@ def show_image(remaining_time,timer,instant_reveal,text_size,filename,image_path
         timer_label.config(text=str(remaining_time))
         root.after(1000, update_timer)
     
-    root.after(remaining_time*1000, close_window)
+    root.after((remaining_time*1000), close_window)
 
     place_labels()
     update_timer()
