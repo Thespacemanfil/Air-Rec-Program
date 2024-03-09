@@ -4,8 +4,7 @@ It takes aircraft from a txt list, and creates customizable slideshows using ima
 Supports custom txt lists in the custom mode.
 
 # Versions
-https://github.com/Thespacemanfil/Air-Rec-Program/releases/tag/v1.1\
-https://github.com/Thespacemanfil/Air-Rec-Program/releases/tag/stable
+https://github.com/Thespacemanfil/Air-Rec-Program/releases/tag/v1.2
 
 # Dependencies
 random\
