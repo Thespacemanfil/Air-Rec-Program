@@ -1,5 +1,5 @@
 import glob, os, random, time
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk #pillow
 import tkinter as tk
 from tkinter import ttk
 from bing_image_downloader import downloader
@@ -80,13 +80,12 @@ def crash(reason):
     os._exit(0)
 
 def slideshow(path,slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer):
-    with open('paths.txt', 'w'): pass
     selected_aircraft = aircraft_selector(txt_file,slideshow_length)
     image_downloader(selected_aircraft,extension,path,variance)
     print("\n\n\n---------------------------------------------------------------------------------")
     input("Press enter to continue: ")
-    run_slideshow(slideshow_time,path,text_size,timer,instant_reveal,selected_aircraft,intermission_time,extension)
-    show_list_of_aircraft(selected_aircraft,text_size)
+    paths = run_slideshow(slideshow_time,path,text_size,timer,instant_reveal,selected_aircraft,intermission_time,extension)
+    show_list_of_aircraft(selected_aircraft,text_size,paths)
     menu()
 
 def aircraft_selector(txt_file,slideshow_length):
@@ -166,6 +165,7 @@ def show_image(remaining_time,timer,instant_reveal,text_size,filename,image_path
 
 def run_slideshow(slideshow_time, path, text_size, timer, instant_reveal, selected_aircraft, intermission_time, extension):
     slide_num = 1
+    paths = []
     for aircraft in selected_aircraft:
         folder_path = os.path.join(path, aircraft + extension) # get the folder path for each aircraft
         images = [f for f in os.listdir(folder_path) if os.path.splitext(f)[1] in (".png", ".jpg", ".jpeg")] # list the image files in the folder
@@ -174,8 +174,7 @@ def run_slideshow(slideshow_time, path, text_size, timer, instant_reveal, select
             continue
 
         image_path = os.path.join(folder_path, random.choice(images)) # get the full image path
-        with open("paths.txt", "a") as f:
-            f.write(image_path + "\n")
+        paths.append(image_path)
         
         show_image(slideshow_time, timer, instant_reveal, text_size, aircraft, image_path, False, intermission_time,slide_num)
         
@@ -183,8 +182,9 @@ def run_slideshow(slideshow_time, path, text_size, timer, instant_reveal, select
             show_image(intermission_time, timer, instant_reveal, text_size, aircraft, image_path, True, intermission_time,"")
 
         slide_num += 1
+    return paths
 
-def open_image(photo_references, image_path, aircraft_name):
+def open_image(image_path, aircraft_name):
     try:
         root = tk.Toplevel()  # Use Toplevel instead of Tk
         root.title(f"{aircraft_name} - Image Viewer")
@@ -197,7 +197,6 @@ def open_image(photo_references, image_path, aircraft_name):
         label = tk.Label(root, image=photo) # Display the image
         label.image = photo  # Keep a reference to the image to prevent garbage collection
         label.pack()
-        photo_references.append(photo) # Store photo reference globally
         aircraft_label = tk.Label(root, text=aircraft_name, font=('Arial', 30)) # Display the aircraft name
         aircraft_label.pack()
 
@@ -205,19 +204,16 @@ def open_image(photo_references, image_path, aircraft_name):
 
     except Exception as e: print(f"Error opening image {image_path} for aircraft {aircraft_name}: {e}")
 
-def show_list_of_aircraft(selected_aircraft, text_size):
+def show_list_of_aircraft(selected_aircraft, text_size, paths):
     def on_aircraft_click(event):
         index = listbox.nearest(event.y)
         if 0 <= index < len(selected_aircraft):
             selected_aircraft_name = selected_aircraft[index]  # Get the aircraft name
-            with open("paths.txt") as file:
-                paths = [path.strip() for path in file.readlines()]
-                if index < len(paths):
-                    pather = paths[index]  # Get the path at the clicked index
-                    photo_references = []
-                    open_image(photo_references, pather, selected_aircraft_name)
-                else:
-                    print(f"No path found for aircraft {selected_aircraft_name}")
+            if index < len(paths):
+                pather = paths[index]  # Get the path at the clicked index
+                open_image(pather, selected_aircraft_name)
+            else:
+                print(f"No path found for aircraft {selected_aircraft_name}")
 
     root = tk.Tk()
     root.title("List of Selected Aircraft")
