@@ -165,7 +165,7 @@ def show_image(remaining_time,timer,instant_reveal,text_size,filename,image_path
             slide_label.place(x=w/20, y=35, anchor="nw")
     
     def update_timer():
-        nonlocal remaining_time  # Use nonlocal to modify the outer variable
+        nonlocal remaining_time
         remaining_time -= 1
         timer_label.config(text=str(remaining_time))
         root.after(1000, update_timer)
