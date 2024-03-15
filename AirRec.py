@@ -90,9 +90,7 @@ def get_yn(text):
 
 def get_int(text):
     while True:
-        try: 
-            number = int(input(text))
-            return number
+        try: return int(input(text))
         except ValueError: print("Invalid input")
 
 def slideshow(path,slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer):
@@ -193,16 +191,14 @@ def run_slideshow(slideshow_time, path, text_size, timer, instant_reveal, select
         paths.append(image_path)
         
         show_image(slideshow_time, timer, instant_reveal, text_size, aircraft, image_path, False, intermission_time,slide_num)
-        
-        if intermission_time > 0: 
-            show_image(intermission_time, timer, instant_reveal, text_size, aircraft, image_path, True, intermission_time,"")
+        if intermission_time > 0: show_image(intermission_time, timer, instant_reveal, text_size, aircraft, image_path, True, intermission_time,"")
 
         slide_num += 1
     return paths
 
 def open_image(image_path, aircraft_name):
     try:
-        root = tk.Toplevel()  # Use Toplevel instead of Tk
+        root = tk.Toplevel()
         root.title(f"{aircraft_name} - Image Viewer")
         image = Image.open(image_path)
         new_width = int(root.winfo_screenwidth() * 0.70)
@@ -214,7 +210,6 @@ def open_image(image_path, aircraft_name):
         label.pack()
         aircraft_label = tk.Label(root, text=aircraft_name, font=('Arial', 30)) # Display the aircraft name
         aircraft_label.pack()
-
         root.mainloop()
 
     except Exception as e: print(f"Error opening image {image_path} for aircraft {aircraft_name}: {e}")
@@ -235,8 +230,7 @@ def show_list_of_aircraft(selected_aircraft, text_size, paths):
     listbox = tk.Listbox(root, font=('Arial', text_size), selectbackground='lightblue', selectforeground='black')
     listbox.pack(fill=tk.BOTH, expand=tk.YES)
     
-    for i, aircraft in enumerate(selected_aircraft, start=1):
-        listbox.insert(tk.END, f"{i}. {aircraft}")  #index and full aircraft name for the answer list
+    for i, aircraft in enumerate(selected_aircraft, start=1): listbox.insert(tk.END, f"{i}. {aircraft}")  #index and full aircraft name for the answer list
     
     listbox.bind('<Double-1>', on_aircraft_click)  # Bind double click event to callback
     root.mainloop()
