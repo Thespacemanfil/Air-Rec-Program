@@ -1,36 +1,46 @@
-import glob, os, random, time
+import glob, os, random, time, msvcrt
 from PIL import Image, ImageTk #pillow
 import tkinter as tk
 from tkinter import ttk
 from bing_image_downloader import downloader
 
+def error():
+    if glob.glob("*.txt") == []: crash("No txt lists found.")
+
+def crash(reason):
+    print("Program shutting down. Reason:",reason)
+    time.sleep(5)
+    os._exit(0)
+
 def menu():
     settings = {
         "path": "C:/aircraft_recognition_program/images/",
+        "txt_file": get_txt("default.txt"),
         "slideshow_length": 30,
         "slideshow_time": 10,
         "instant_reveal": False,
         "intermission_time": 0,
         "variance": 2,
-        "txt_file": get_txt("default.txt"),
         "text_size": 50,
         "extension": " airplane",
         "timer": True,
     }
 
     print("---Aircraft Recognition Program---")
-    slideshowmenu(settings)
+    while not mode_choices(settings): pass
+    slideshow(**settings)
 
-def slideshowmenu(settings):
+def mode_choices(settings):
     match input("competition, casual, learn or custom mode?\n").lower():
         case "competition":
-            pass  # No changes needed, defaults are for competition mode
+            return True
         case "casual":
             settings.update({
                 "slideshow_length": 20,
                 "intermission_time": 5,
                 "extension": " aircraft",
             })
+            return True
         case "learn":
             settings.update({
                 "slideshow_length": -1,
@@ -40,6 +50,7 @@ def slideshowmenu(settings):
                 "txt_file": get_txt(),
                 "extension": " aircraft",
             })
+            return True
         case "test":
             settings.update({
             "slideshow_length": 3,
@@ -47,37 +58,34 @@ def slideshowmenu(settings):
             "instant_reveal": True,
             "intermission_time": 2,
             })
-        case _:
-            if input("Reveal answers immediately y/n\n").lower() == "y": instant_reveal = True
-            else: instant_reveal = False
-            if input("Visible countdown timer y/n\n").lower() == "y": timer = True
-            else: timer = False
+            return True
+        case "custom":
             settings.update({
-                "txt_file": get_txt(),
+                "txt_file": get_txt(None),
                 "slideshow_length": int(input("Slide count (-1 will use entire list):\n")),
                 "slideshow_time": int(input("Slide length (seconds):\n")),
-                "instant_reveal": instant_reveal,
+                "instant_reveal": get_choice("Reveal answers immediately y/n"),
                 "intermission_time": int(input("intermission length (seconds):\n")),
                 "extension": (" " + input("Search modifier: e.g top view, in flight, [or leave blank]\n")).rstrip(),
-                "timer": timer,
+                "timer": get_choice("Visible countdown timer y/n"),
             })
-
-    slideshow(**settings)
+        case _:
+            return False
 
 def get_txt(file):
-    if os.path.exists(file): return file
-    elif not file: get_txt(input("TXT list choice:" + str(glob.glob("*.txt")) + "\n"))
-    elif glob.glob("*.txt") == []: crash("No txt lists found.")
-    else:
+    if file is None: file = input("Choose a TXT list: " + str(glob.glob("*.txt")) + "\n")
+    while os.path.exists(file) == False:
         print("Failed to find",file)
-        while os.path.exists(file) == False:
-            file = input("Choose a TXT list: " + str(glob.glob("*.txt")) + "\n")
-        return file
-    
-def crash(reason):
-    print("Program shutting down. Reason:",reason)
-    time.sleep(5)
-    os._exit(0)
+        file = input("Choose a TXT list: " + str(glob.glob("*.txt")) + "\n")
+    return file
+
+def get_choice(text):
+    print(text)
+    key = msvcrt.getch().lower()
+    match key:
+        case b"y": print("y"); return True
+        case b"n": print("n"); return False
+        case _: print("Invalid input"); return get_choice(text)
 
 def slideshow(path,slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer):
     selected_aircraft = aircraft_selector(txt_file,slideshow_length)
@@ -102,12 +110,12 @@ def image_downloader(selected_aircraft, extension, path, variance):
     for aircraft in selected_aircraft:
         query = aircraft + extension
         output_path = os.path.join(path, query)
-        for _ in range(2):  # Try to download the image
+        for _ in range(3):  # Try to download the image
             num_files_before = len(os.listdir(output_path)) if os.path.exists(output_path) else 0
             downloader.download(query, limit=variance, output_dir=path, adult_filter_off=False, force_replace=False, timeout=10, filter="photo", verbose=False)
             if num_files_before < len(os.listdir(output_path)): break
         else:
-            print(f"Failed to download image for {query} after 2 attempts.")
+            print(f"Failed to download image for {query} after 3 attempts.")
             selected_aircraft.remove(aircraft)
         
 def show_image(remaining_time,timer,instant_reveal,text_size,filename,image_path,intermission,intermission_time,slide_num):
@@ -188,7 +196,6 @@ def open_image(image_path, aircraft_name):
     try:
         root = tk.Toplevel()  # Use Toplevel instead of Tk
         root.title(f"{aircraft_name} - Image Viewer")
-
         image = Image.open(image_path)
         new_width = int(root.winfo_screenwidth() * 0.70)
         new_height = int(root.winfo_screenheight() * 0.70)
@@ -226,4 +233,5 @@ def show_list_of_aircraft(selected_aircraft, text_size, paths):
     listbox.bind('<Double-1>', on_aircraft_click)  # Bind double click event to callback
     root.mainloop()
 
+error()
 menu()
