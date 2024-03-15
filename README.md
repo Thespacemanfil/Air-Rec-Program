@@ -16,3 +16,4 @@ tkinter
 
 ## Creating an executable
 pyinstaller --onefile --console AirRec.py\
+python -m PyInstaller --onefile --console AirRec.py

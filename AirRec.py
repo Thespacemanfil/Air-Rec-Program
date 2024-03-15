@@ -62,13 +62,14 @@ def mode_choices(settings):
         case "custom":
             settings.update({
                 "txt_file": get_txt(None),
-                "slideshow_length": int(input("Slide count (-1 will use entire list):\n")),
-                "slideshow_time": int(input("Slide length (seconds):\n")),
-                "instant_reveal": get_choice("Reveal answers immediately y/n"),
-                "intermission_time": int(input("intermission length (seconds):\n")),
+                "slideshow_length": get_int("Slide count (-1 will use entire list):\n"),
+                "slideshow_time": get_int("Slide length (seconds):\n"),
+                "instant_reveal": get_yn("Reveal answers immediately y/n"),
+                "intermission_time": get_int("intermission length (seconds):\n"),
                 "extension": (" " + input("Search modifier: e.g top view, in flight, [or leave blank]\n")).rstrip(),
-                "timer": get_choice("Visible countdown timer y/n"),
+                "timer": get_yn("Countdown timer y/n"),
             })
+            return True
         case _:
             return False
 
@@ -79,18 +80,25 @@ def get_txt(file):
         file = input("Choose a TXT list: " + str(glob.glob("*.txt")) + "\n")
     return file
 
-def get_choice(text):
+def get_yn(text):
     print(text)
     key = msvcrt.getch().lower()
     match key:
         case b"y": print("y"); return True
         case b"n": print("n"); return False
-        case _: print("Invalid input"); return get_choice(text)
+        case _: print("Invalid input"); return get_yn(text)
+
+def get_int(text):
+    while True:
+        try: 
+            number = int(input(text))
+            return number
+        except ValueError: print("Invalid input")
 
 def slideshow(path,slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer):
     selected_aircraft = aircraft_selector(txt_file,slideshow_length)
     image_downloader(selected_aircraft,extension,path,variance)
-    print("\n\n\n---------------------------------------------------------------------------------")
+    print("\n---------------------------------------------------------------------------------")
     input("Press enter to continue: ")
     paths = run_slideshow(slideshow_time,path,text_size,timer,instant_reveal,selected_aircraft,intermission_time,extension)
     show_list_of_aircraft(selected_aircraft,text_size,paths)
