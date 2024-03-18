@@ -193,9 +193,7 @@ def run_slideshow(slideshow_time, path, text_size, timer, instant_reveal, select
         paths.append(image_path)
         
         show_image(slideshow_time, timer, instant_reveal, text_size, aircraft, image_path, False, intermission_time,slide_num)
-        
-        if intermission_time > 0: 
-            show_image(intermission_time, timer, instant_reveal, text_size, aircraft, image_path, True, intermission_time,"")
+        if intermission_time > 0: show_image(intermission_time, timer, instant_reveal, text_size, aircraft, image_path, True, intermission_time,"")
 
         slide_num += 1
     return paths
