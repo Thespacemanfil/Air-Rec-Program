@@ -1,18 +1,23 @@
-import glob, os, random, time, msvcrt
+import glob, os, random, time, msvcrt, requests
 from PIL import Image, ImageTk #pillow
 import tkinter as tk
 from tkinter import ttk
 from bing_image_downloader import downloader
 
 def error():
-    if glob.glob("*.txt") == []: crash("No txt lists found.")
+    if glob.glob("*.txt") == []:
+        crash("No txt lists found.")
+
+    try: requests.head("http://www.google.com/", timeout=1)
+    except requests.ConnectionError: crash("No internet connection")
 
 def crash(reason):
-    print("Program shutting down. Reason:",reason)
+    print("\n\n\n\n\nProgram shutting down. Reason:",reason)
     time.sleep(5)
     os._exit(0)
 
 def menu():
+    error()
     settings = {
         "path": "C:/aircraft_recognition_program/images/",
         "txt_file": get_txt("default.txt"),
