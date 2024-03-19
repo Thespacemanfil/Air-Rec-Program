@@ -139,13 +139,13 @@ def image_downloader(aircraft_list, extension, path, variance):
     return selected_aircraft, selected_paths
         
 class DisplayImage:
-    def __init__(self, remaining_time, timer, instant_reveal, text_size, filename, image_path, intermission, intermission_time, slide_num, slide):
+    def __init__(self, remaining_time, timer, instant_reveal, text_size, filename, image_path, intermission, intermission_time, slide_num, slideshow):
         self.root = tk.Tk()
         w, h = self.root.winfo_screenwidth(), self.root.winfo_screenheight()
         self.root.attributes("-fullscreen", True)
         self.root.wm_attributes("-topmost", 1)
         self.bool = False
-        self.slide = slide
+        self.slideshow = slideshow
 
         def close_window():
             self.root.destroy()
@@ -157,10 +157,10 @@ class DisplayImage:
                     aircraft_label.place(x=w/2, y=35, anchor="center")
                     self.bool = True
                 else:
-                    self.slide[0] += 1
+                    self.slideshow.slide += 1
                     close_window()
             elif event.keysym == 'BackSpace':
-                self.slide[0] -= 1
+                self.slideshow.slide -= 1
                 close_window()
             elif event.keysym == 'Escape':
                 sys.exit()
@@ -183,27 +183,15 @@ class DisplayImage:
         if intermission:
             if timer and intermission_time > 0:
                 timer_label.place(x=w - 100, y=20)
-            else:
-                timer_label.place_forget()
-
             if instant_reveal:
                 aircraft_label.place(x=w/2, y=h/2, anchor="center")
                 slide_label.place(x=w/20, y=35, anchor="nw")
-            else:
-                aircraft_label.place_forget()
-
         else:
             slide_label.place(x=w/20, y=35, anchor="nw")
-
             if timer and remaining_time > 0:
                 timer_label.place(x=w - 100, y=20)
-            else:
-                timer_label.place_forget()
-
             if instant_reveal and intermission_time == 0 and remaining_time != -1:
                 aircraft_label.place(x=w/2, y=35, anchor="center")
-            else:
-                aircraft_label.place_forget()
 
         def update_timer():
             nonlocal remaining_time
@@ -224,21 +212,21 @@ class DisplayImage:
 
 class Slideshow:
     def __init__(self, slideshow_time, selected_paths, text_size, timer, instant_reveal, selected_aircraft, intermission_time):
-        self.slide = [0]
-        while self.slide[0] < len(selected_aircraft):
-            if self.slide[0] < 0: self.slide[0] = 0
-            aircraft = selected_aircraft[self.slide[0]]
-            image_path = selected_paths[self.slide[0]]
-            slide_num = self.slide[0] + 1
+        self.slide = 0
+        while self.slide < len(selected_aircraft):
+            if self.slide < 0: self.slide = 0
+            aircraft = selected_aircraft[self.slide]
+            image_path = selected_paths[self.slide]
+            slide_num = self.slide + 1
 
-            DisplayImage(slideshow_time, timer, instant_reveal, text_size, aircraft, image_path, False, intermission_time, slide_num, self.slide)
-            if (slide_num - 1) > self.slide[0]: continue
+            DisplayImage(slideshow_time, timer, instant_reveal, text_size, aircraft, image_path, False, intermission_time, slide_num, self)
+            if (slide_num - 1) > self.slide: continue
             if intermission_time > 0: 
-                prev_slide = self.slide[0]  # Remember the slide number before the intermission
-                DisplayImage(intermission_time, timer, instant_reveal, text_size, aircraft, image_path, True, intermission_time, slide_num, self.slide)
-                if self.slide[0] < prev_slide: continue  # If 'BackSpace' was pressed, skip the increment
-            if (slide_num - 1) == self.slide[0]: self.slide[0] += 1
-            elif self.slide[0] > slide_num: self.slide[0] = slide_num
+                prev_slide = self.slide  # Remember the slide number before the intermission
+                DisplayImage(intermission_time, timer, instant_reveal, text_size, aircraft, image_path, True, intermission_time, slide_num, self)
+                if self.slide < prev_slide: continue  # If 'BackSpace' was pressed, skip the increment
+            if (slide_num - 1) == self.slide: self.slide += 1
+            elif self.slide > slide_num: self.slide = slide_num
  
 def open_image(image_path, aircraft_name):
     try:
