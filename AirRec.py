@@ -7,7 +7,6 @@ from bing_image_downloader import downloader
 def error():
     if glob.glob("*.txt") == []:
         crash("No txt lists found.")
-
     try: requests.head("http://www.google.com/", timeout=1)
     except requests.ConnectionError: crash("No internet connection")
 
@@ -259,7 +258,7 @@ def show_list_of_aircraft(selected_aircraft, text_size, paths):
 
     root = tk.Tk()
     root.title("List of Selected Aircraft")
-    listbox = tk.Listbox(root, font=('Arial', text_size), selectbackground='lightblue', selectforeground='black')
+    listbox = tk.Listbox(root, font=('Arial', int(text_size*0.8)), selectbackground='lightblue', selectforeground='black')
     listbox.pack(fill=tk.BOTH, expand=tk.YES)
     
     for i, aircraft in enumerate(selected_aircraft, start=1): listbox.insert(tk.END, f"{i}. {aircraft}")  #index and full aircraft name for the answer list
