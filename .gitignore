@@ -1,5 +1,6 @@
 *.properties
 AirRec.spec
+AirRec copy.py
 .venv
 build
 dist

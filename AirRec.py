@@ -1,4 +1,4 @@
-import glob, os, sys, random, time, msvcrt, requests
+import glob, os, sys, random, time, msvcrt, requests, mouse
 from PIL import Image, ImageTk #pillow
 import tkinter as tk
 from tkinter import ttk
@@ -58,8 +58,8 @@ def mode_choices(settings):
             return True
         case "test":
             settings.update({
-            "slideshow_length": 3,
-            "slideshow_time": 2,
+            "slideshow_length": 5,
+            "slideshow_time": 4,
             "instant_reveal": True,
             "intermission_time": 2,
             })
@@ -126,16 +126,12 @@ def image_downloader(aircraft_list, extension, path, variance):
 
         try:
             downloader.download(query, limit=variance, output_dir=path, adult_filter_off=False, force_replace=False, timeout=1, filter="photo", verbose=False)
+            images = [f for f in os.listdir(output_path) if os.path.splitext(f)[1] in (".png", ".jpg", ".jpeg")] # list the image files in the folder
+            if len(images) > 0:
+                selected_paths.append(os.path.join(output_path, random.choice(images)))
+                selected_aircraft.append(aircraft)
         except:
             print(f"Failed to download image for {query}")
-            continue
-        
-        if len(glob.glob(f'{output_path}/*')) == 0 or not os.path.exists(output_path):
-            print(f"Failed to download image for {query}")
-        else:
-            images = [f for f in os.listdir(output_path) if os.path.splitext(f)[1] in (".png", ".jpg", ".jpeg")] # list the image files in the folder   
-            selected_paths.append(os.path.join(output_path, random.choice(images)))
-            selected_aircraft.append(aircraft)
     
     if len(selected_paths) == 0:
         error("Faliure to download any images. Check your connection and computer.")
@@ -145,13 +141,10 @@ def image_downloader(aircraft_list, extension, path, variance):
 class display_image:
     def __init__(self, remaining_time, timer, instant_reveal, text_size, filename, image_path, intermission, intermission_time, slide_num):
         self.root = tk.Tk()
-        self.root.title("Aircraft Image")
         w, h = self.root.winfo_screenwidth(), self.root.winfo_screenheight()
-        self.root.geometry(f"{w}x{h}")
-        self.root.lift()
-        self.root.attributes("-topmost", True)
-        self.root.attributes("-fullscreen", True)  # This will make the window fullscreen
-        self.answer_visible = False
+        self.root.attributes("-fullscreen", True)
+        self.root.wm_attributes("-topmost", 1)
+        self.bool = False
 
         def close_window():
             self.root.destroy()
@@ -159,16 +152,15 @@ class display_image:
         def key_pressed(event):
             nonlocal remaining_time, instant_reveal
             if event.keysym == 'Return':
-                if remaining_time == -1 and instant_reveal == True and self.answer_visible == False:
+                if remaining_time == -1 and instant_reveal == True and self.bool == False:
                     aircraft_label.place(x=w/2, y=35, anchor="center")
-                    self.answer_visible = True
+                    self.bool = True
                 else:
                     close_window()
             elif event.keysym == 'Escape':
                 sys.exit()
 
         self.root.bind("<Key>", key_pressed)
-        self.root.focus_set()
 
         if intermission:
             self.root.configure(bg='black')
@@ -222,17 +214,20 @@ class display_image:
             self.root.after((remaining_time*1000), close_window)
             update_timer()
 
+        mouse.move(1, 1, absolute=True, duration=0)
+        mouse.click('left')
+
         self.root.mainloop()
-        
+    
 def run_slideshow(slideshow_time, selected_paths, text_size, timer, instant_reveal, selected_aircraft, intermission_time):
     for i in range(len(selected_paths)):
         aircraft = selected_aircraft[i]
         image_path = selected_paths[i]
         slide_num = i + 1
         
-        show_image = display_image(slideshow_time, timer, instant_reveal, text_size, aircraft, image_path, False, intermission_time,slide_num)
-        if intermission_time > 0: show_image = display_image(intermission_time, timer, instant_reveal, text_size, aircraft, image_path, True, intermission_time,"")
-
+        display_image(slideshow_time, timer, instant_reveal, text_size, aircraft, image_path, False, intermission_time,slide_num)
+        if intermission_time > 0: display_image(intermission_time, timer, instant_reveal, text_size, aircraft, image_path, True, intermission_time,"")
+ 
 def open_image(image_path, aircraft_name):
     try:
         root = tk.Toplevel()
