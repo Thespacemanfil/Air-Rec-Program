@@ -58,7 +58,7 @@ def mode_choices(settings):
             return True
         case "test":
             settings.update({
-            "slideshow_length": 5,
+            "slideshow_length": 4,
             "slideshow_time": 4,
             "instant_reveal": True,
             "intermission_time": 2,
@@ -103,7 +103,7 @@ def slideshow(path,slideshow_length,slideshow_time,instant_reveal,intermission_t
     selected_aircraft, selected_paths = image_downloader(aircraft_list,extension,path,variance)
     print("\n---------------------------------------------------------------------------------\nPress any key to continue")
     msvcrt.getch()
-    run_slideshow(slideshow_time, selected_paths, text_size, timer, instant_reveal, selected_aircraft, intermission_time)
+    Slideshow(slideshow_time, selected_paths, text_size, timer, instant_reveal, selected_aircraft, intermission_time)
     show_list_of_aircraft(selected_aircraft,text_size,selected_paths)
     menu()
 
@@ -138,13 +138,14 @@ def image_downloader(aircraft_list, extension, path, variance):
 
     return selected_aircraft, selected_paths
         
-class display_image:
-    def __init__(self, remaining_time, timer, instant_reveal, text_size, filename, image_path, intermission, intermission_time, slide_num):
+class DisplayImage:
+    def __init__(self, remaining_time, timer, instant_reveal, text_size, filename, image_path, intermission, intermission_time, slide_num, slide):
         self.root = tk.Tk()
         w, h = self.root.winfo_screenwidth(), self.root.winfo_screenheight()
         self.root.attributes("-fullscreen", True)
         self.root.wm_attributes("-topmost", 1)
         self.bool = False
+        self.slide = slide
 
         def close_window():
             self.root.destroy()
@@ -156,7 +157,11 @@ class display_image:
                     aircraft_label.place(x=w/2, y=35, anchor="center")
                     self.bool = True
                 else:
+                    self.slide[0] += 1
                     close_window()
+            elif event.keysym == 'BackSpace':
+                self.slide[0] -= 1
+                close_window()
             elif event.keysym == 'Escape':
                 sys.exit()
 
@@ -175,9 +180,6 @@ class display_image:
         aircraft_label = ttk.Label(self.root, text=filename, font=('Arial', text_size), foreground='white', background='black')
         slide_label = ttk.Label(self.root, text=slide_num, font=('Arial', text_size), foreground='black', background='white')
 
-        def place_labels():
-            self.root.update()  # Update the window to get the correct dimensions
-
         if intermission:
             if timer and intermission_time > 0:
                 timer_label.place(x=w - 100, y=20)
@@ -186,10 +188,13 @@ class display_image:
 
             if instant_reveal:
                 aircraft_label.place(x=w/2, y=h/2, anchor="center")
+                slide_label.place(x=w/20, y=35, anchor="nw")
             else:
                 aircraft_label.place_forget()
 
         else:
+            slide_label.place(x=w/20, y=35, anchor="nw")
+
             if timer and remaining_time > 0:
                 timer_label.place(x=w - 100, y=20)
             else:
@@ -199,8 +204,6 @@ class display_image:
                 aircraft_label.place(x=w/2, y=35, anchor="center")
             else:
                 aircraft_label.place_forget()
-        
-        slide_label.place(x=w/20, y=35, anchor="nw")
 
         def update_timer():
             nonlocal remaining_time
@@ -208,7 +211,7 @@ class display_image:
             timer_label.config(text=str(remaining_time))
             self.root.after(1000, update_timer)
 
-        place_labels()
+        self.root.update()
 
         if remaining_time != -1:
             self.root.after((remaining_time*1000), close_window)
@@ -218,15 +221,24 @@ class display_image:
         mouse.click('left')
 
         self.root.mainloop()
-    
-def run_slideshow(slideshow_time, selected_paths, text_size, timer, instant_reveal, selected_aircraft, intermission_time):
-    for i in range(len(selected_paths)):
-        aircraft = selected_aircraft[i]
-        image_path = selected_paths[i]
-        slide_num = i + 1
-        
-        display_image(slideshow_time, timer, instant_reveal, text_size, aircraft, image_path, False, intermission_time,slide_num)
-        if intermission_time > 0: display_image(intermission_time, timer, instant_reveal, text_size, aircraft, image_path, True, intermission_time,"")
+
+class Slideshow:
+    def __init__(self, slideshow_time, selected_paths, text_size, timer, instant_reveal, selected_aircraft, intermission_time):
+        self.slide = [0]
+        while self.slide[0] < len(selected_aircraft):
+            if self.slide[0] < 0: self.slide[0] = 0
+            aircraft = selected_aircraft[self.slide[0]]
+            image_path = selected_paths[self.slide[0]]
+            slide_num = self.slide[0] + 1
+
+            DisplayImage(slideshow_time, timer, instant_reveal, text_size, aircraft, image_path, False, intermission_time, slide_num, self.slide)
+            if (slide_num - 1) > self.slide[0]: continue
+            if intermission_time > 0: 
+                prev_slide = self.slide[0]  # Remember the slide number before the intermission
+                DisplayImage(intermission_time, timer, instant_reveal, text_size, aircraft, image_path, True, intermission_time, slide_num, self.slide)
+                if self.slide[0] < prev_slide: continue  # If 'BackSpace' was pressed, skip the increment
+            if (slide_num - 1) == self.slide[0]: self.slide[0] += 1
+            elif self.slide[0] > slide_num: self.slide[0] = slide_num
  
 def open_image(image_path, aircraft_name):
     try:
