@@ -1,4 +1,6 @@
 *.properties
-/AirRec.spec
+AirRec.spec
+.venv
 build
 dist
+images
