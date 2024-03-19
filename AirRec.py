@@ -1,4 +1,4 @@
-import glob, os, shutil, random, time, msvcrt, requests
+import glob, os, sys, random, time, msvcrt, requests
 from PIL import Image, ImageTk #pillow
 import tkinter as tk
 from tkinter import ttk
@@ -18,8 +18,6 @@ def crash(reason):
 
 def menu():
     path = os.path.dirname(os.path.realpath(__file__))
-    if os.path.exists(path) and os.path.isdir(path): os.remove(path)
-
     settings = {
         "path": f"{path}/images",
         "txt_file": get_txt("default.txt"),
@@ -101,8 +99,8 @@ def get_int(text):
         except ValueError: print("Invalid input")
 
 def slideshow(path,slideshow_length,slideshow_time,instant_reveal,intermission_time,variance,txt_file,text_size,extension,timer):
-    selected_aircraft = aircraft_selector(txt_file,slideshow_length)
-    selected_aircraft, selected_paths = image_downloader(selected_aircraft,extension,path,variance)
+    aircraft_list = aircraft_selector(txt_file,slideshow_length)
+    selected_aircraft, selected_paths = image_downloader(aircraft_list,extension,path,variance)
     print("\n---------------------------------------------------------------------------------\nPress any key to continue")
     msvcrt.getch()
     run_slideshow(slideshow_time, selected_paths, text_size, timer, instant_reveal, selected_aircraft, intermission_time)
@@ -119,22 +117,29 @@ def aircraft_selector(txt_file,slideshow_length):
         return aircraft_list
     else: print("INVALID SLIDESHOW LENGTH")
 
-def image_downloader(selected_aircraft, extension, path, variance):
+def image_downloader(aircraft_list, extension, path, variance):
     selected_paths = []
-    for aircraft in selected_aircraft:
+    selected_aircraft = []
+    for aircraft in aircraft_list:
         query = aircraft + extension
         output_path = os.path.join(path, query)
 
-        downloader.download(query, limit=variance, output_dir=path, adult_filter_off=False, force_replace=False, timeout=10, filter="photo", verbose=False)
+        try:
+            downloader.download(query, limit=variance, output_dir=path, adult_filter_off=False, force_replace=False, timeout=1, filter="photo", verbose=False)
+        except:
+            print(f"Failed to download image for {query}")
+            continue
         
         if len(glob.glob(f'{output_path}/*')) == 0 or not os.path.exists(output_path):
             print(f"Failed to download image for {query}")
-            selected_aircraft.remove(aircraft)
         else:
             images = [f for f in os.listdir(output_path) if os.path.splitext(f)[1] in (".png", ".jpg", ".jpeg")] # list the image files in the folder   
             selected_paths.append(os.path.join(output_path, random.choice(images)))
+            selected_aircraft.append(aircraft)
     
-    print(f"selected aircraft:{selected_aircraft}\nselected paths:{selected_paths}")
+    if len(selected_paths) == 0:
+        error("Faliure to download any images. Check your connection and computer.")
+
     return selected_aircraft, selected_paths
         
 class display_image:
@@ -143,10 +148,27 @@ class display_image:
         self.root.title("Aircraft Image")
         w, h = self.root.winfo_screenwidth(), self.root.winfo_screenheight()
         self.root.geometry(f"{w}x{h}")
+        self.root.lift()
         self.root.attributes("-topmost", True)
+        self.root.attributes("-fullscreen", True)  # This will make the window fullscreen
+        self.answer_visible = False
 
         def close_window():
             self.root.destroy()
+
+        def key_pressed(event):
+            nonlocal remaining_time, instant_reveal
+            if event.keysym == 'Return':
+                if remaining_time == -1 and instant_reveal == True and self.answer_visible == False:
+                    aircraft_label.place(x=w/2, y=35, anchor="center")
+                    self.answer_visible = True
+                else:
+                    close_window()
+            elif event.keysym == 'Escape':
+                sys.exit()
+
+        self.root.bind("<Key>", key_pressed)
+        self.root.focus_set()
 
         if intermission:
             self.root.configure(bg='black')
@@ -181,7 +203,7 @@ class display_image:
             else:
                 timer_label.place_forget()
 
-            if instant_reveal and intermission_time == 0:
+            if instant_reveal and intermission_time == 0 and remaining_time != -1:
                 aircraft_label.place(x=w/2, y=35, anchor="center")
             else:
                 aircraft_label.place_forget()
@@ -203,11 +225,10 @@ class display_image:
         self.root.mainloop()
         
 def run_slideshow(slideshow_time, selected_paths, text_size, timer, instant_reveal, selected_aircraft, intermission_time):
-    i = 0
-    for aircraft in selected_aircraft:
+    for i in range(len(selected_paths)):
+        aircraft = selected_aircraft[i]
         image_path = selected_paths[i]
         slide_num = i + 1
-        i = slide_num
         
         show_image = display_image(slideshow_time, timer, instant_reveal, text_size, aircraft, image_path, False, intermission_time,slide_num)
         if intermission_time > 0: show_image = display_image(intermission_time, timer, instant_reveal, text_size, aircraft, image_path, True, intermission_time,"")
