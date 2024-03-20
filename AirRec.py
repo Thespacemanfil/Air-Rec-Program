@@ -11,7 +11,7 @@ def error():
     except requests.ConnectionError: crash("No internet connection")
 
 def crash(reason):
-    print("\n\n\n\n\nProgram shutting down. Reason:",reason)
+    print("--------------------------------------------\nProgram shutting down. Reason:",reason)
     time.sleep(5)
     os._exit(0)
 
