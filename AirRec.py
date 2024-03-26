@@ -16,6 +16,7 @@ def crash(reason):
     os._exit(0)
 
 def menu():
+    error()
     path = os.path.dirname(os.path.realpath(__file__))
     settings = {
         "path": f"{path}/images",
@@ -30,7 +31,7 @@ def menu():
         "timer": True,
     }
 
-    print("---Aircraft Recognition Program---")
+    print("-------Aircraft Recognition Program-------")
     while not mode_choices(settings): pass
     slideshow(**settings)
 
@@ -102,6 +103,7 @@ def slideshow(path,slideshow_length,slideshow_time,instant_reveal,intermission_t
     selected_aircraft, selected_paths = image_downloader(aircraft_list,extension,path,variance)
     print("\n---------------------------------------------------------------------------------\nPress any key to continue")
     msvcrt.getch()
+    print("")
     Slideshow(slideshow_time, selected_paths, text_size, timer, instant_reveal, selected_aircraft, intermission_time)
     show_list_of_aircraft(selected_aircraft,text_size,selected_paths)
     menu()
@@ -130,10 +132,8 @@ def image_downloader(aircraft_list, extension, path, variance):
                 selected_paths.append(os.path.join(output_path, random.choice(images)))
                 selected_aircraft.append(aircraft)
         except:
+            error()
             print(f"Failed to download image for {query}")
-    
-    if len(selected_paths) == 0:
-        error("Faliure to download any images. Check your connection and computer.")
 
     return selected_aircraft, selected_paths
         
@@ -145,9 +145,8 @@ class DisplayImage:
         self.root.wm_attributes("-topmost", 1)
         self.bool = False
         self.slideshow = slideshow
-
-        def close_window():
-            self.root.destroy()
+        self.remaining_time = remaining_time
+        self.timer_label = None
 
         def key_pressed(event):
             nonlocal remaining_time, instant_reveal
@@ -157,10 +156,10 @@ class DisplayImage:
                     self.bool = True
                 else:
                     self.slideshow.slide += 1
-                    close_window()
+                    self.close_window()
             elif event.keysym == 'BackSpace':
                 self.slideshow.slide -= 1
-                close_window()
+                self.close_window()
             elif event.keysym == 'Escape':
                 sys.exit()
 
@@ -175,40 +174,42 @@ class DisplayImage:
             label = ttk.Label(self.root, image=photo)
             label.pack(fill=tk.BOTH, expand=tk.YES)
 
-        timer_label = ttk.Label(self.root, text=str(remaining_time), font=('Arial', text_size), foreground='orange')
+        self.timer_label = ttk.Label(self.root, text=str(remaining_time), font=('Arial', text_size), foreground='orange')
         aircraft_label = ttk.Label(self.root, text=filename, font=('Arial', text_size), foreground='white', background='black')
         slide_label = ttk.Label(self.root, text=slide_num, font=('Arial', text_size), foreground='black', background='white')
 
         if intermission:
             if timer and intermission_time > 0:
-                timer_label.place(x=w - 100, y=20)
+                self.timer_label.place(x=w - 100, y=20)
             if instant_reveal:
                 aircraft_label.place(x=w/2, y=h/2, anchor="center")
                 slide_label.place(x=w/20, y=35, anchor="nw")
         else:
             slide_label.place(x=w/20, y=35, anchor="nw")
             if timer and remaining_time > 0:
-                timer_label.place(x=w - 100, y=20)
+                self.timer_label.place(x=w - 100, y=20)
             if instant_reveal and intermission_time == 0 and remaining_time != -1:
                 aircraft_label.place(x=w/2, y=35, anchor="center")
-
-        def update_timer():
-            nonlocal remaining_time
-            remaining_time -= 1
-            timer_label.config(text=str(remaining_time))
-            self.root.after(1000, update_timer)
 
         self.root.update()
 
         if remaining_time != -1:
-            self.root.after((remaining_time*1000), close_window)
-            update_timer()
+            self.root.after((remaining_time*1000), self.close_window)
+            self.update_timer()
 
-        mouse.move(1, 1, absolute=True, duration=0)
+        mouse.move(1, 1, absolute=True, duration=0.1)
         mouse.click('left')
 
         self.root.mainloop()
 
+    def close_window(self):
+        self.root.destroy()
+
+    def update_timer(self):
+        self.remaining_time -= 1
+        self.timer_label.config(text=str(self.remaining_time))
+        self.root.after(1000, self.update_timer)
+        
 class Slideshow:
     def __init__(self, slideshow_time, selected_paths, text_size, timer, instant_reveal, selected_aircraft, intermission_time):
         self.slide = 0
@@ -266,5 +267,4 @@ def show_list_of_aircraft(selected_aircraft, text_size, paths):
     listbox.bind('<Double-1>', on_aircraft_click)  # Bind double click event to callback
     root.mainloop()
 
-error()
 menu()

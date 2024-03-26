@@ -1,12 +1,10 @@
-RAF AEF Grob Viking T.1
-RAF Airbus A400M Atlas C.1
-RAF Airbus H135 Juno HT.1
-RAF Airbus H145 Jupiter HC.2
-RAF Airbus H145 Jupiter HT.1
-RAF Airbus Helicopters Puma HC.2
-RAF Airbus VOYAGER
-RAF BAE Systems Hawk T.2
-RAF Beechcraft Shadow R.1
+RAF Airbus A400M Atlas C1
+RAF Airbus H135 Juno HT1
+RAF Airbus H145 Jupiter HT1 / HC2
+RAF Airbus Helicopters Puma HC2
+RAF Airbus Voyager
+RAF BAE Systems Hawk T2
+RAF Beechcraft Shadow R1
 RAF Beechcraft Texan T1
 RAF BoB Memorial Flight Avro Lancaster
 RAF BoB Memorial Flight de Havilland Canada Chipmunk
@@ -15,19 +13,20 @@ RAF BoB Memorial Flight Hawker Hurricane
 RAF BoB Memorial Flight Supermarine Spitfire
 RAF Boeing C-17A GLOBEMASTER III
 RAF Boeing CH-47 CHINOOK
-RAF Boeing E-7 Wedgetail AEW.1
-RAF Boeing P-8 Poseidon MRA.1
+RAF Boeing E-7 Wedgetail AEW1
+RAF Boeing P-8 Poseidon MRA1
 RAF Boeing RC-135W Rivet Joint
-RAF Dassault Envoy IV CC.1
-RAF Embraer Phenom T.1
+RAF Dassault Envoy IV CC1
+RAF Embraer Phenom T1
 RAF Eurofighter Typhoon FGR4
 RAF General Atomics MQ-9A Reaper
 RAF General Atomics MQ-9B Protector RG1
-RAF Grob Prefect T.1
-RAF Grob Tutor T.1
+RAF Grob Prefect T1
+RAF Grob Tutor T1
+RAF Grob Viking T1
 RAF Leonardo AW109SP
 RAF Lockheed Martin F-35B
-RAF Red Arrows British Aerospace Hawk T.1
+RAF Red Arrows British Aerospace Hawk T1
 AAC AgustaWestland Apache AH1
 AAC AgustaWestland AW159 Wildcat
 AAC Boeing AH-64E Apache Guardian
@@ -39,6 +38,6 @@ FAA AgustaWestland AW159 Wildcat HMA2
 FAA Beechcraft Avenger
 FAA Commando Wildcat AH1
 FAA Lockheed Martin F-35B
-MoD Eurocopter AS350 Écureuil
+MoD Eurocopter AS350 Ecureuil
 MoD Hawker Hunter
 MoD Westland Sea King
