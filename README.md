@@ -8,7 +8,7 @@ Download AirRec.exe and Default.txt from the latest release in versions, and pla
 Run AirRec.exe as needed and add more .txt files as required.
 
 # Controls
-Backspace to got to the previouse slide. \
+Backspace to got to the previous slide. \
 Enter to go to the next slide. \
 Esc to close the slideshow.
 
