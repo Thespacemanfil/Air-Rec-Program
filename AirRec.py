@@ -63,7 +63,7 @@ def mode_choices(settings):
             settings.update({
                 "slideshow_length": 4,
                 "primary_time": 5,
-                "answers": True,
+                "answers": False,
                 "secondary_time": 0,
                 "secondary_black": False,
                 "variance": 2,
@@ -220,13 +220,13 @@ def present_slideshow(primary_time, primary_paths, text_size, timer, answers, se
 
         def update_timer():
             nonlocal remaining_time
-            if remaining_time > 0:
+            if remaining_time > 1:
                 remaining_time -= 1
                 timer_label.config(text=str(remaining_time))
                 rootafters.append(root.after(1000, update_timer))
 
         if remaining_time != -1:
-            rootafters.append(root.after((remaining_time*1000), next_slide))
+            rootafters.append(root.after((remaining_time - 1) * 1000, next_slide))
             update_timer()
 
         root.mainloop()
