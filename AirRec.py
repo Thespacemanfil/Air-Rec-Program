@@ -64,7 +64,7 @@ def mode_choices(settings):
                 "slideshow_length": 4,
                 "primary_time": 5,
                 "answers": True,
-                "secondary_time": 5,
+                "secondary_time": 0,
                 "secondary_black": False,
                 "variance": 2,
                 "text_size": 50,
@@ -182,7 +182,8 @@ def present_slideshow(primary_time, primary_paths, text_size, timer, answers, se
 
     def prev_slide():
         nonlocal slide_num, primary, secondary_enabled
-        if secondary_enabled and primary and slide_num > 1: slide_num -= 1
+        if slide_num > 1 and ((secondary_enabled and primary) or not secondary_enabled): 
+            slide_num -= 1
         primary = True
         present_slide()
 
