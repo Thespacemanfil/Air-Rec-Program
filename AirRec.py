@@ -4,6 +4,15 @@ import tkinter as tk
 from tkinter import ttk
 from bing_image_downloader import downloader
 
+class HiddenPrints:
+    def __enter__(self):
+        self._original_stdout = sys.stdout
+        sys.stdout = open(os.devnull, 'w')
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        sys.stdout.close()
+        sys.stdout = self._original_stdout
+
 def error():
     if glob.glob("*.txt") == []:
         crash("No txt lists found.")
@@ -110,6 +119,7 @@ def get_int(text):
 
 def slideshow(path,slideshow_length,primary_time,answers,secondary_time,secondary_black,variance,txt_file,text_size,extension,show_slide_num,timer):
     aircraft_list = aircraft_selector(txt_file,slideshow_length)
+    print()
     selected_aircraft, primary_paths = image_downloader(aircraft_list,extension,path,variance)
     print("\n---------------------------------------------------------------------------------\nPress any key to continue")
     msvcrt.getch()
@@ -131,12 +141,14 @@ def aircraft_selector(txt_file,slideshow_length):
 def image_downloader(aircraft_list, extension, path, variance):
     primary_paths = []
     selected_aircraft = []
+    total_aircraft = len(aircraft_list)
     for aircraft in aircraft_list:
         query = aircraft + extension
         output_path = os.path.join(path, query)
 
         try:
-            downloader.download(query, limit=variance, output_dir=path, adult_filter_off=False, force_replace=False, timeout=1, filter="photo", verbose=False)
+            with HiddenPrints():
+                downloader.download(query, limit=variance, output_dir=path, adult_filter_off=False, force_replace=False, timeout=1, filter="photo", verbose=False)
             images = [f for f in os.listdir(output_path) if os.path.splitext(f)[1] in (".png", ".jpg", ".jpeg")] # list the image files in the folder
             if len(images) > 0:
                 primary_paths.append(os.path.join(output_path, random.choice(images)))
@@ -144,6 +156,8 @@ def image_downloader(aircraft_list, extension, path, variance):
         except:
             error()
             print(f"Failed to download image for {query}")
+
+        print(str(int((len(selected_aircraft) / total_aircraft) * 100)) + " percent done")
 
     return selected_aircraft, primary_paths
 
@@ -176,7 +190,7 @@ def present_slideshow(primary_time, primary_paths, text_size, timer, answers, se
             if not primary: slide_num += 1
             primary = not primary
         else: slide_num += 1
-
+ 
         if slide_num > len(primary_paths): root.destroy()
         else: present_slide()
 
@@ -260,9 +274,9 @@ def show_list_of_aircraft(selected_aircraft, text_size, paths):
                 print(f"No path found for aircraft {selected_aircraft_name}")
 
     root = tk.Tk()
-    root.wm_attributes("-topmost", 1)
+    root.lift()
     root.title("List of Selected Aircraft")
-    listbox = tk.Listbox(root, font=('Arial', int(text_size*0.8)), selectbackground='lightblue', selectforeground='black')
+    listbox = tk.Listbox(root, font=('Arial', int(text_size*0.7)), selectbackground='lightblue', selectforeground='black')
     listbox.pack(fill=tk.BOTH, expand=tk.YES)
     
     for i, aircraft in enumerate(selected_aircraft, start=1): listbox.insert(tk.END, f"{i}. {aircraft}")  #index and full aircraft name for the answer list
