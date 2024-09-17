@@ -157,7 +157,7 @@ def image_downloader(aircraft_list, extension, path, variance):
             error()
             print(f"Failed to download image for {query}")
 
-        print(str(int((len(selected_aircraft) / total_aircraft) * 100)) + " percent done")
+        print(str(int((len(selected_aircraft) / total_aircraft) * 100)) + " percent")
 
     return selected_aircraft, primary_paths
 
@@ -179,9 +179,11 @@ def present_slideshow(primary_time, primary_paths, text_size, timer, answers, se
             root.after_cancel(after_id)
         rootafters.clear()
 
-        if event.keysym == 'Return': next_slide()
-        elif event.keysym == 'BackSpace': prev_slide()
-        elif event.keysym == 'Escape': sys.exit()
+        match event.keysym:
+            case 'Return': next_slide()
+            case 'BackSpace': prev_slide()
+            case 'Escape': sys.exit()
+
     root.bind("<Key>", key_pressed)
 
     def next_slide():
