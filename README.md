@@ -13,7 +13,7 @@ Enter to go to the next slide. \
 Esc to close the slideshow.
 
 # Versions
-https://github.com/Thespacemanfil/Air-Rec-Program/releases/tag/v2.0
+https://github.com/Thespacemanfil/Air-Rec-Program/releases/tag/v1.0
 
 # Dependencies
 random\

@@ -1,8 +1,9 @@
-import glob, os, sys, random, time, msvcrt, requests
+import glob, os, sys, random, time, msvcrt, requests, colorama
 from PIL import Image, ImageTk #pillow
 import tkinter as tk
 from tkinter import ttk
 from bing_image_downloader import downloader
+colorama.init()
 
 class HiddenPrints:
     def __enter__(self):
@@ -41,7 +42,7 @@ def menu():
         "show_slide_num": True,
         "timer": True,
     }
-
+    print("\033[H\033[J", end="")
     print("-------Aircraft Recognition Program-------")
     while not mode_choices(settings): pass
     slideshow(**settings)
@@ -119,9 +120,10 @@ def get_int(text):
 
 def slideshow(path,slideshow_length,primary_time,answers,secondary_time,secondary_black,variance,txt_file,text_size,extension,show_slide_num,timer):
     aircraft_list = aircraft_selector(txt_file,slideshow_length)
-    print()
+    print("\n")
     selected_aircraft, primary_paths = image_downloader(aircraft_list,extension,path,variance)
-    print("\n---------------------------------------------------------------------------------\nPress any key to continue")
+    sys.stdout.write("\033[F\033[K")
+    print("------------------------------------------\nPress any key to continue")
     msvcrt.getch()
     print("")
     present_slideshow(primary_time, primary_paths, text_size, timer, answers, selected_aircraft, secondary_time, secondary_black, show_slide_num)
@@ -145,6 +147,8 @@ def image_downloader(aircraft_list, extension, path, variance):
     for aircraft in aircraft_list:
         query = aircraft + extension
         output_path = os.path.join(path, query)
+        sys.stdout.write("\033[F\033[K")
+        print(str(int((len(selected_aircraft) / total_aircraft) * 100)) + " percent downloaded")
 
         try:
             with HiddenPrints():
@@ -156,8 +160,6 @@ def image_downloader(aircraft_list, extension, path, variance):
         except:
             error()
             print(f"Failed to download image for {query}")
-
-        print(str(int((len(selected_aircraft) / total_aircraft) * 100)) + " percent")
 
     return selected_aircraft, primary_paths
 
