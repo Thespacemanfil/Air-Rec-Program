@@ -256,7 +256,7 @@ def open_image(image_path, aircraft_name):
         root = tk.Toplevel()
         root.title(f"{aircraft_name} - Image Viewer")
         image = Image.open(image_path)
-        image = image.resize((int(root.winfo_screenwidth() * 0.70), int(root.winfo_screenheight() * 0.70)), Image.LANCZOS)
+        image = image.resize((int(root.winfo_screenwidth() * 0.8), int(root.winfo_screenheight() * 0.8)), Image.LANCZOS)
         photo = ImageTk.PhotoImage(image)
         label = tk.Label(root, image=photo) # Display the image
         label.image = photo  # Keep a reference to the image to prevent garbage collection
@@ -280,7 +280,7 @@ def show_list_of_aircraft(selected_aircraft, text_size, paths):
     root = tk.Tk()
     root.lift()
     root.title("List of Selected Aircraft")
-    listbox = tk.Listbox(root, font=('Arial', int(text_size*0.7)), selectbackground='lightblue', selectforeground='black')
+    listbox = tk.Listbox(root, font=('Arial', int(text_size*0.5)), selectbackground='lightblue', selectforeground='black')
     listbox.pack(fill=tk.BOTH, expand=tk.YES)
     
     for i, aircraft in enumerate(selected_aircraft, start=1): listbox.insert(tk.END, f"{i}. {aircraft}")  #index and full aircraft name for the answer list
