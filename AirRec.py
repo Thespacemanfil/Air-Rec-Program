@@ -1,9 +1,8 @@
-import glob, os, sys, random, time, msvcrt, requests, colorama
+import glob, os, sys, random, time, msvcrt, requests
 from PIL import Image, ImageTk #pillow
 import tkinter as tk
 from tkinter import ttk
 from bing_image_downloader import downloader
-colorama.init()
 
 class HiddenPrints:
     def __enter__(self):
@@ -15,10 +14,13 @@ class HiddenPrints:
         sys.stdout = self._original_stdout
 
 def error():
-    if glob.glob("*.txt") == []:
-        crash("No txt lists found.")
-    try: requests.head("http://www.google.com/", timeout=1)
+    if glob.glob("*.txt") == []: crash("No txt lists found.")
+    try:
+        response = requests.get("https://www.google.com", timeout=5)
+        if response.status_code == 200: print("Internet connection is stable.")
+        else: crash("Internet connection is unstable.")
     except requests.ConnectionError: crash("No internet connection")
+    except requests.Timeout: crash("Connection timed out.")
 
 def crash(reason):
     print("--------------------------------------------\nProgram shutting down. Reason:",reason)
